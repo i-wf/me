@@ -1,22 +1,12 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 import {
-  Code2, Brain, Palette, Cpu, Bot,
-  Workflow, Search, GraduationCap,
-  Mail, ArrowDown, Sparkles,
-  Terminal, Layers, Smartphone, Globe as GlobeIcon,
   Home, User, Briefcase, MessageSquare, BookOpen
 } from "lucide-react";
 import { FallingPattern } from "@/components/ui/falling-pattern";
-import ProfileCard from "@/components/ui/profile-card";
-import { CardStack, CardStackItem } from "@/components/ui/card-stack";
-import { Globe } from "@/components/Globe";
-import { TestimonialCarousel } from "@/components/ui/testimonial-carousel";
-import { BlogPosts } from "@/components/ui/blog-posts";
-import { SocialIcons } from "@/components/ui/social-icons";
-import DisplayCards from "@/components/ui/display-cards";
 import { CursorTrail } from "@/components/ui/cursor-trail";
 import { AnimeNavBar } from "@/components/ui/anime-navbar";
+import { SplashScreen } from "@/components/ui/splash-screen";
 import HeroSection from "@/components/sections/HeroSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ArsenalSection from "@/components/sections/ArsenalSection";
@@ -34,10 +24,16 @@ const navItems = [
 ];
 
 const Index = () => {
+  const [entered, setEntered] = useState(false);
+
+  if (!entered) {
+    return <SplashScreen onEnter={() => setEntered(true)} />;
+  }
+
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       <CursorTrail />
-      
+
       <FallingPattern
         color="hsl(0, 0%, 30%)"
         backgroundColor="hsl(0, 0%, 4%)"
@@ -59,6 +55,7 @@ const Index = () => {
         />
       </div>
 
+      <AnimeNavBar items={navItems} defaultActive="Home" />
       <HeroSection />
       <SkillsSection />
       <ArsenalSection />
@@ -75,8 +72,6 @@ const Index = () => {
           </p>
         </div>
       </footer>
-
-      <AnimeNavBar items={navItems} defaultActive="Home" />
     </div>
   );
 };
