@@ -68,7 +68,7 @@ export default function ProfileCard({
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            <Zap className="w-3 h-3 text-primary" />
+            <Zap className="w-3 h-3 text-foreground" />
             {glowText}
           </motion.p>
         </div>
