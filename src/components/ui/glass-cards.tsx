@@ -22,9 +22,10 @@ interface CardProps {
     totalCards: number;
     color: string;
     iconName: string;
+    certificateUrl?: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, index, totalCards, color, iconName }) => {
+const Card: React.FC<CardProps> = ({ title, description, index, totalCards, color, iconName, certificateUrl }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const Icon = iconMap[iconName];
@@ -79,7 +80,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                 style={{
                     position: 'relative',
                     width: '70%',
-                    height: '450px',
+                    height: '480px', // Slightly increased height for certificate
                     borderRadius: '24px',
                     isolation: 'isolate',
                     top: `calc(-5vh + ${index * 25}px)`,
@@ -138,7 +139,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     }} />
 
                     {/* Skill Content */}
-                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                         <div style={{
                             width: '64px',
                             height: '64px',
@@ -153,7 +154,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                             {Icon && <Icon className="w-8 h-8" style={{ color: '#1a1a1a' }} />}
                         </div>
                         <h3 style={{
-                            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+                            fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
                             fontWeight: 900,
                             color: '#1a1a1a',
                             lineHeight: 1.05,
@@ -163,15 +164,49 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                             {title}
                         </h3>
                         <p style={{
-                            fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
+                            fontSize: 'clamp(0.95rem, 1.6vw, 1.15rem)',
                             color: 'rgba(0, 0, 0, 0.8)',
-                            lineHeight: 1.6,
-                            maxWidth: '650px',
+                            lineHeight: 1.5,
+                            maxWidth: '600px',
                             fontWeight: 600,
                             margin: 0
                         }}>
                             {description}
                         </p>
+
+                        {/* Certificate Badge */}
+                        {certificateUrl && (
+                            <div className="group/cert" style={{
+                                marginTop: '1rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '1rem',
+                                padding: '10px 16px',
+                                background: 'rgba(255, 255, 255, 0.3)',
+                                borderRadius: '16px',
+                                width: 'fit-content',
+                                border: '1px solid rgba(255, 255, 255, 0.4)',
+                                backdropFilter: 'blur(10px)',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                            }}>
+                                <div style={{
+                                    width: '60px',
+                                    height: '40px',
+                                    borderRadius: '8px',
+                                    overflow: 'hidden',
+                                    border: '1px solid rgba(0,0,0,0.1)',
+                                    background: '#f0f0f0'
+                                }}>
+                                    <img src={certificateUrl} alt="Certificate" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(0,0,0,0.4)', textTransform: 'uppercase', letterSpacing: '1px' }}>Verified Asset</span>
+                                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#1a1a1a' }}>Owner Certificate</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Content Corner Glow - Reused color for subtle branded accent */}
@@ -225,6 +260,7 @@ export const StackedCards: React.FC = () => {
                         totalCards={cardData.length}
                         color={card.color}
                         iconName={card.iconName}
+                        certificateUrl={(card as any).certificateUrl}
                     />
                 ))}
             </section>
