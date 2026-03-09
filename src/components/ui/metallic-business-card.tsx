@@ -249,27 +249,88 @@ export default function MetallicBusinessCard({
 
                 <div
                     className="metallic-content"
-                    style={{ position: 'absolute', inset: 0, zIndex: 3, display: 'grid', gridTemplateRows: '1fr auto auto', gap: '0.45rem', padding: '1.1rem 1.25rem', color: 'var(--ink)', textShadow: '0 1px 0 rgba(255, 255, 255, 0.30), 0 8px 22px var(--glow-1), 0 2px 10px var(--glow-2)', alignItems: alignCss, textAlign }}
+                    style={{ position: 'absolute', inset: 0, zIndex: 3, display: 'grid', gridTemplateRows: 'auto 1fr auto', gap: '0.45rem', padding: '2rem', color: 'var(--ink)', textShadow: '0 1px 0 rgba(255, 255, 255, 0.30), 0 8px 22px var(--glow-1), 0 2px 10px var(--glow-2)', alignItems: 'stretch', textAlign }}
                 >
-                    {logoSrc && (
-                        <img src={logoSrc} alt={logoAlt} style={{ position: 'absolute', top: '0.9rem', right: '0.9rem', height: '28px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35))' }} />
-                    )}
+                    {/* Top Layer: Chip and Telda */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
+                        {/* Gold Chip */}
+                        <div style={{
+                            width: '45px',
+                            height: '35px',
+                            borderRadius: '6px',
+                            background: 'linear-gradient(135deg, #e5c07b 0%, #d19a66 50%, #98c379 100%)',
+                            boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.4)',
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gridTemplateRows: 'repeat(3, 1fr)',
+                            gap: '1px',
+                            padding: '4px',
+                            border: '1px solid rgba(0,0,0,0.1)'
+                        }}>
+                            {[...Array(9)].map((_, i) => (
+                                <div key={i} style={{ border: '0.5px solid rgba(0,0,0,0.2)', borderRadius: '1px' }} />
+                            ))}
+                        </div>
 
-                    <div style={{ alignSelf: 'end', display: 'grid', gap: '0.15rem' }}>
-                        <h3 id={titleId} style={{ margin: 0, fontWeight: 800, letterSpacing: '0.01em', lineHeight: 1.12, fontSize: 'clamp(1.05rem, 0.9rem + 0.6vw, 1.25rem)', color: 'var(--ink)' }}>
-                            {name}
-                        </h3>
-                        {role && <p style={{ margin: '0.05rem 0 0 0', color: 'var(--ink)', fontWeight: 800, letterSpacing: '0.02em', lineHeight: 1.25, fontSize: '0.92rem' }}>{role}</p>}
-                        {company && <p style={{ margin: '0.1rem 0 0 0', color: 'var(--ink)', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.01em', lineHeight: 1.18, fontVariantCaps: 'all-small-caps' }}>{company}</p>}
+                        {/* Telda Styling */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style={{
+                                width: '32px',
+                                height: '32px',
+                                borderRadius: '8px',
+                                backgroundColor: 'var(--ink)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'var(--bg-card)',
+                                fontWeight: 'bold',
+                                fontSize: '18px'
+                            }}>
+                                t
+                            </div>
+                            <span style={{ color: 'var(--ink)', fontWeight: 'bold', fontSize: '14px', letterSpacing: '1px' }}>TELDA</span>
+                        </div>
                     </div>
 
-                    {(email || phone || website) && (
-                        <div style={{ alignSelf: 'end', display: 'grid', gap: '0.14rem', color: 'var(--ink)', fontSize: '0.80rem', letterSpacing: '0.015em', fontWeight: 700 }}>
-                            {email && <p style={{ margin: 0 }}>{email}</p>}
-                            {phone && <p style={{ margin: 0 }}>{phone}</p>}
-                            {website && <p style={{ margin: 0 }}>{website}</p>}
+                    <div style={{ alignSelf: 'center', display: 'grid', gap: '0.15rem' }}>
+                        <h3 id={titleId} style={{ margin: 0, fontWeight: 800, letterSpacing: '0.01em', lineHeight: 1.12, fontSize: 'clamp(1.5rem, 2vw, 2rem)', color: 'var(--ink)' }}>
+                            {name}
+                        </h3>
+                        {role && <p style={{ margin: '0.05rem 0 0 0', color: 'var(--ink)', fontWeight: 800, letterSpacing: '0.02em', lineHeight: 1.25, fontSize: '1rem' }}>{role}</p>}
+                        {company && <p style={{ margin: '0.1rem 0 0 0', color: 'var(--ink)', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.1em', lineHeight: 1.18, fontVariantCaps: 'all-small-caps' }}>{company}</p>}
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
+                        {(email || phone || website) && (
+                            <div style={{ display: 'grid', gap: '0.14rem', color: 'var(--ink)', fontSize: '0.80rem', letterSpacing: '0.05em', fontWeight: 700 }}>
+                                {email && <p style={{ margin: 0 }}>{email}</p>}
+                                {phone && <p style={{ margin: 0 }}>{phone}</p>}
+                                {website && <p style={{ margin: 0 }}>{website}</p>}
+                            </div>
+                        )}
+
+                        {/* Mastercard Circles */}
+                        <div style={{ position: 'relative', width: '60px', height: '36px' }}>
+                            <div style={{
+                                position: 'absolute',
+                                left: 0,
+                                width: '36px',
+                                height: '36px',
+                                borderRadius: '50%',
+                                backgroundColor: '#eb001b',
+                                opacity: 0.9
+                            }} />
+                            <div style={{
+                                position: 'absolute',
+                                right: 0,
+                                width: '36px',
+                                height: '36px',
+                                borderRadius: '50%',
+                                backgroundColor: '#ff5f00',
+                                opacity: 0.9
+                            }} />
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
 

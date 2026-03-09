@@ -114,144 +114,77 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between', // Changed to space-between for card layout
+                    justifyContent: 'center',
                     borderRadius: '24px',
-                    background: 'rgba(255, 255, 255, 0.98)',
-                    backdropFilter: 'blur(40px)',
-                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                    background: 'rgba(255, 254, 250, 0.12)', // Light cream glass
+                    backdropFilter: 'blur(35px) saturate(160%)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
                     boxShadow: `
-                        0 20px 50px rgba(0, 0, 0, 0.1),
-                        0 4px 12px rgba(0, 0, 0, 0.05),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.5)
+                        0 12px 48px rgba(0, 0, 0, 0.12),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4)
                     `,
                     overflow: 'hidden',
-                    padding: '2.5rem',
+                    padding: '3.5rem',
                 }}>
-                    {/* Top Section: Chip and Telda */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%', zIndex: 2 }}>
-                        {/* Credit Card Chip */}
-                        <div style={{
-                            width: '45px',
-                            height: '35px',
-                            borderRadius: '6px',
-                            background: 'linear-gradient(135deg, #e5c07b 0%, #d19a66 50%, #98c379 100%)',
-                            position: 'relative',
-                            boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.4)',
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(3, 1fr)',
-                            gridTemplateRows: 'repeat(3, 1fr)',
-                            gap: '1px',
-                            padding: '4px',
-                            border: '1px solid rgba(0,0,0,0.1)'
-                        }}>
-                            {[...Array(9)].map((_, i) => (
-                                <div key={i} style={{ border: '0.5px solid rgba(0,0,0,0.2)', borderRadius: '1px' }} />
-                            ))}
-                        </div>
+                    {/* Glass reflection overlay */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '60%',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%)',
+                        pointerEvents: 'none',
+                    }} />
 
-                        {/* Telda Icon (Placeholder/Stylized) */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{
-                                width: '32px',
-                                height: '32px',
-                                borderRadius: '8px',
-                                backgroundColor: '#1a1a1a',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                                fontWeight: 'bold',
-                                fontSize: '18px'
-                            }}>
-                                t
-                            </div>
-                            <span style={{ color: '#1a1a1a', fontWeight: 'bold', fontSize: '14px', letterSpacing: '1px' }}>TELDA</span>
-                        </div>
-                    </div>
-
-                    {/* Middle Section: Skill Content */}
-                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+                    {/* Skill Content */}
+                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                         <div style={{
-                            width: '48px',
-                            height: '48px',
-                            borderRadius: '12px',
-                            backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                            width: '64px',
+                            height: '64px',
+                            borderRadius: '18px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            backdropFilter: 'blur(10px)',
+                            border: '1px solid rgba(255, 255, 255, 0.3)',
                         }}>
-                            {Icon && <Icon className="w-6 h-6" style={{ color: '#1a1a1a' }} />}
+                            {Icon && <Icon className="w-8 h-8" style={{ color: '#1a1a1a' }} />}
                         </div>
                         <h3 style={{
-                            fontSize: 'clamp(1.5rem, 3vw, 2.2rem)',
-                            fontWeight: 800,
+                            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+                            fontWeight: 900,
                             color: '#1a1a1a',
-                            lineHeight: 1.1,
-                            letterSpacing: '-0.02em',
+                            lineHeight: 1.05,
+                            letterSpacing: '-0.04em',
                             margin: 0
                         }}>
                             {title}
                         </h3>
                         <p style={{
-                            fontSize: 'clamp(0.85rem, 1.2vw, 1.05rem)',
-                            color: '#4a4a4a',
-                            lineHeight: 1.5,
-                            maxWidth: '450px',
+                            fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
+                            color: 'rgba(0, 0, 0, 0.8)',
+                            lineHeight: 1.6,
+                            maxWidth: '650px',
+                            fontWeight: 600,
                             margin: 0
                         }}>
                             {description}
                         </p>
                     </div>
 
-                    {/* Bottom Section: Mastercard Logo */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', zIndex: 2 }}>
-                        <div style={{ position: 'relative', width: '60px', height: '36px' }}>
-                            <div style={{
-                                position: 'absolute',
-                                left: 0,
-                                width: '36px',
-                                height: '36px',
-                                borderRadius: '50%',
-                                backgroundColor: '#eb001b',
-                                opacity: 0.9
-                            }} />
-                            <div style={{
-                                position: 'absolute',
-                                right: 0,
-                                width: '36px',
-                                height: '36px',
-                                borderRadius: '50%',
-                                backgroundColor: '#ff5f00',
-                                opacity: 0.9
-                            }} />
-                        </div>
-                    </div>
-
-                    {/* Subtle Security Hologram Element */}
+                    {/* Content Corner Glow - Reused color for subtle branded accent */}
                     <div style={{
                         position: 'absolute',
-                        bottom: '2.5rem',
-                        left: '2.5rem',
-                        fontSize: '10px',
-                        color: 'rgba(0,0,0,0.2)',
-                        fontWeight: 'monospace',
-                        letterSpacing: '2px',
-                        zIndex: 2
-                    }}>
-                        SECURE ELEMENT VALIDATED
-                    </div>
-
-                    {/* Card shine effect overlay */}
-                    <div style={{
-                        position: 'absolute',
-                        top: '-100%',
-                        left: '-100%',
-                        width: '300%',
-                        height: '300%',
-                        background: 'linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.3) 55%, transparent 60%)',
-                        pointerEvents: 'none',
-                        zIndex: 1,
-                        opacity: 0.5
+                        bottom: '-15%',
+                        right: '-15%',
+                        width: '50%',
+                        height: '50%',
+                        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+                        opacity: 0.12,
+                        filter: 'blur(50px)',
+                        zIndex: 1
                     }} />
                 </div>
             </div>
