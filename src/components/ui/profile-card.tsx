@@ -56,9 +56,9 @@ export default function ProfileCard({
     >
       <Card className="relative overflow-hidden glass rounded-2xl border-border/30">
         {/* Gradient glow background */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-primary blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-accent blur-3xl" />
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-foreground blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-muted-foreground blur-3xl" />
         </div>
 
         {/* Glow text banner */}
@@ -68,7 +68,7 @@ export default function ProfileCard({
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            <Zap className="w-3 h-3 text-primary" />
+            <Zap className="w-3 h-3 text-foreground" />
             {glowText}
           </motion.p>
         </div>
@@ -77,7 +77,7 @@ export default function ProfileCard({
           {/* Status row */}
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <span className={cn("w-2 h-2 rounded-full animate-pulse", statusColor)} />
+              <span className={cn("w-2 h-2 rounded-full animate-pulse bg-neutral-400")} />
               {statusText}
             </span>
             <span className="flex items-center gap-1">
@@ -93,7 +93,7 @@ export default function ProfileCard({
                 <img
                   src={avatarSrc}
                   alt={name}
-                  className="w-14 h-14 rounded-xl object-cover ring-2 ring-primary/30"
+                  className="w-14 h-14 rounded-xl object-cover ring-2 ring-border"
                 />
               ) : (
                 <div className="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center text-xl font-bold text-gradient">

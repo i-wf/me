@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
   Code2, Brain, Palette, Database, Cpu, Bot,
-  Globe as GlobeIcon, Workflow, Search, GraduationCap,
+  Workflow, Search, GraduationCap,
   Mail, Github, Linkedin, Twitter, ArrowDown, Sparkles,
   Terminal, Layers, Smartphone, Server
 } from "lucide-react";
@@ -10,20 +10,21 @@ import { FallingPattern } from "@/components/ui/falling-pattern";
 import ProfileCard from "@/components/ui/profile-card";
 import { CardStack, CardStackItem } from "@/components/ui/card-stack";
 import { Globe } from "@/components/Globe";
+import { TestimonialCarousel } from "@/components/ui/testimonial-carousel";
 
 const skills = [
-  { icon: Brain, label: "AI Engineer", color: "from-purple-500 to-violet-600" },
-  { icon: Code2, label: "Software Engineer", color: "from-blue-500 to-cyan-500" },
-  { icon: Layers, label: "Full Stack Dev", color: "from-emerald-500 to-teal-500" },
-  { icon: Bot, label: "Vibe Coder", color: "from-pink-500 to-rose-500" },
-  { icon: Workflow, label: "N8N Automations", color: "from-amber-500 to-orange-500" },
-  { icon: GraduationCap, label: "Skill Coach", color: "from-indigo-500 to-blue-500" },
-  { icon: Cpu, label: "Machine Learning", color: "from-violet-500 to-purple-600" },
-  { icon: Palette, label: "Graphic Designer", color: "from-rose-500 to-pink-500" },
-  { icon: Smartphone, label: "UI Designer", color: "from-cyan-500 to-teal-500" },
-  { icon: Search, label: "Data Scraper", color: "from-green-500 to-emerald-500" },
-  { icon: Database, label: "Data Research", color: "from-sky-500 to-blue-500" },
-  { icon: Terminal, label: "6+ Languages", color: "from-orange-500 to-red-500" },
+  { icon: Brain, label: "AI Engineer", color: "from-neutral-400 to-neutral-600" },
+  { icon: Code2, label: "Software Engineer", color: "from-neutral-500 to-neutral-700" },
+  { icon: Layers, label: "Full Stack Dev", color: "from-neutral-300 to-neutral-500" },
+  { icon: Bot, label: "Vibe Coder", color: "from-neutral-400 to-neutral-600" },
+  { icon: Workflow, label: "N8N Automations", color: "from-neutral-500 to-neutral-700" },
+  { icon: GraduationCap, label: "Skill Coach", color: "from-neutral-300 to-neutral-500" },
+  { icon: Cpu, label: "Machine Learning", color: "from-neutral-400 to-neutral-600" },
+  { icon: Palette, label: "Graphic Designer", color: "from-neutral-500 to-neutral-700" },
+  { icon: Smartphone, label: "UI Designer", color: "from-neutral-300 to-neutral-500" },
+  { icon: Search, label: "Data Scraper", color: "from-neutral-400 to-neutral-600" },
+  { icon: Database, label: "Data Research", color: "from-neutral-500 to-neutral-700" },
+  { icon: Terminal, label: "6+ Languages", color: "from-neutral-300 to-neutral-500" },
 ];
 
 const projectItems: CardStackItem[] = [
@@ -71,8 +72,8 @@ const Index = () => {
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Falling pattern background */}
       <FallingPattern
-        color="hsl(263, 70%, 50%)"
-        backgroundColor="hsl(240, 10%, 3.9%)"
+        color="hsl(0, 0%, 30%)"
+        backgroundColor="hsl(0, 0%, 4%)"
         duration={120}
         blurIntensity="0.5em"
       />
@@ -80,12 +81,12 @@ const Index = () => {
       {/* Ambient glow orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px]"
+          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-muted/20 blur-[120px]"
           animate={{ x: [0, 50, 0], y: [0, -30, 0], scale: [1, 1.2, 1] }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/10 blur-[100px]"
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-muted/15 blur-[100px]"
           animate={{ x: [0, -40, 0], y: [0, 40, 0], scale: [1, 0.9, 1] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -94,15 +95,13 @@ const Index = () => {
       {/* ========== HERO SECTION ========== */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
         <div className="relative z-10 w-full max-w-6xl mx-auto">
-          {/* Main glass card */}
           <motion.div
-            className="glass-strong rounded-3xl p-8 md:p-12 lg:p-16 glow-primary"
+            className="glass-strong rounded-3xl p-8 md:p-12 lg:p-16 glow-soft"
             initial={{ opacity: 0, scale: 0.9, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-center">
-              {/* Left content */}
               <div className="space-y-6">
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
@@ -110,8 +109,8 @@ const Index = () => {
                   transition={{ delay: 0.3, duration: 0.6 }}
                   className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs text-muted-foreground"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-primary" />
-                  15 years old • Full Stack Creator
+                  <Sparkles className="w-3.5 h-3.5 text-foreground" />
+                  15 years old · Full Stack Creator
                 </motion.div>
 
                 <motion.h1
@@ -120,11 +119,9 @@ const Index = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.7 }}
                 >
-                  <span className="text-gradient">All-in-One</span>
+                  <span className="text-gradient">Saif</span>
                   <br />
-                  <span className="text-foreground">Tech</span>
-                  <br />
-                  <span className="text-gradient-pink">Prodigy</span>
+                  <span className="text-gradient-dim">Medhat</span>
                 </motion.h1>
 
                 <motion.p
@@ -145,7 +142,7 @@ const Index = () => {
                 >
                   <a
                     href="mailto:q@qn.ci"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors"
                   >
                     <Mail className="w-4 h-4" /> Contact Me
                   </a>
@@ -158,11 +155,10 @@ const Index = () => {
                 </motion.div>
               </div>
 
-              {/* Right - Profile Card */}
               <div className="flex justify-center lg:justify-end">
                 <ProfileCard
-                  name="Q"
-                  role="All-in-One Tech Creator"
+                  name="Saif Medhat"
+                  role="Full Stack Creator"
                   email="q@qn.ci"
                   statusText="Available for work"
                   glowText="Building the Future at 15"
@@ -170,7 +166,6 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Scroll indicator */}
             <motion.div
               className="flex justify-center mt-12"
               animate={{ y: [0, 8, 0] }}
@@ -218,7 +213,7 @@ const Index = () => {
                   "w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center",
                   skill.color
                 )}>
-                  <skill.icon className="w-6 h-6 text-white" />
+                  <skill.icon className="w-6 h-6 text-background" />
                 </div>
                 <span className="text-sm font-medium text-foreground group-hover:text-gradient transition-all">
                   {skill.label}
@@ -238,7 +233,7 @@ const Index = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-gradient-pink mb-4">
+            <h2 className="text-4xl md:text-5xl font-black text-gradient-dim mb-4">
               My Arsenal
             </h2>
             <p className="text-muted-foreground text-lg">
@@ -247,7 +242,6 @@ const Index = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[200px]">
-            {/* AI & ML - Large */}
             <motion.div
               className="md:col-span-4 md:row-span-2 glass rounded-2xl p-8 relative overflow-hidden group"
               initial={{ opacity: 0, x: -30 }}
@@ -256,7 +250,7 @@ const Index = () => {
               whileHover={{ scale: 1.01 }}
             >
               <div className="relative z-10">
-                <Brain className="w-8 h-8 text-primary mb-4" />
+                <Brain className="w-8 h-8 text-foreground mb-4" />
                 <h3 className="text-2xl font-bold text-foreground mb-2">AI & Machine Learning</h3>
                 <p className="text-muted-foreground max-w-md">
                   Building intelligent systems, training models, and creating AI-powered applications 
@@ -268,7 +262,6 @@ const Index = () => {
               </div>
             </motion.div>
 
-            {/* Frontend */}
             <motion.div
               className="md:col-span-2 glass rounded-2xl p-6 relative overflow-hidden"
               initial={{ opacity: 0, y: 30 }}
@@ -276,12 +269,11 @@ const Index = () => {
               viewport={{ once: true }}
               whileHover={{ scale: 1.02 }}
             >
-              <Code2 className="w-7 h-7 text-emerald-400 mb-3" />
+              <Code2 className="w-7 h-7 text-neutral-400 mb-3" />
               <h3 className="text-lg font-bold text-foreground">Frontend</h3>
               <p className="text-sm text-muted-foreground mt-1">React, TypeScript, Tailwind, Next.js</p>
             </motion.div>
 
-            {/* Backend */}
             <motion.div
               className="md:col-span-2 glass rounded-2xl p-6 relative overflow-hidden"
               initial={{ opacity: 0, y: 30 }}
@@ -290,12 +282,11 @@ const Index = () => {
               transition={{ delay: 0.1 }}
               whileHover={{ scale: 1.02 }}
             >
-              <Server className="w-7 h-7 text-blue-400 mb-3" />
+              <Server className="w-7 h-7 text-neutral-500 mb-3" />
               <h3 className="text-lg font-bold text-foreground">Backend</h3>
               <p className="text-sm text-muted-foreground mt-1">Node.js, Python, APIs, Databases</p>
             </motion.div>
 
-            {/* Automation */}
             <motion.div
               className="md:col-span-3 glass rounded-2xl p-6 relative overflow-hidden"
               initial={{ opacity: 0, y: 30 }}
@@ -303,14 +294,13 @@ const Index = () => {
               viewport={{ once: true }}
               whileHover={{ scale: 1.02 }}
             >
-              <Workflow className="w-7 h-7 text-amber-400 mb-3" />
+              <Workflow className="w-7 h-7 text-neutral-400 mb-3" />
               <h3 className="text-lg font-bold text-foreground">N8N Automations</h3>
               <p className="text-sm text-muted-foreground mt-1">
                 Building complex automation workflows that save hundreds of hours
               </p>
             </motion.div>
 
-            {/* Design */}
             <motion.div
               className="md:col-span-3 glass rounded-2xl p-6 relative overflow-hidden"
               initial={{ opacity: 0, y: 30 }}
@@ -319,7 +309,7 @@ const Index = () => {
               transition={{ delay: 0.1 }}
               whileHover={{ scale: 1.02 }}
             >
-              <Palette className="w-7 h-7 text-pink-400 mb-3" />
+              <Palette className="w-7 h-7 text-neutral-500 mb-3" />
               <h3 className="text-lg font-bold text-foreground">UI & Graphic Design</h3>
               <p className="text-sm text-muted-foreground mt-1">
                 Creating stunning visuals and intuitive user interfaces
@@ -363,17 +353,43 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ========== TESTIMONIALS SECTION ========== */}
+      <section className="relative py-24 px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-black text-gradient-dim mb-4">
+              Testimonials
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              What people say about working with me
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <TestimonialCarousel />
+          </motion.div>
+        </div>
+      </section>
+
       {/* ========== EDUCATION & CONTACT ========== */}
       <section className="relative py-24 px-4">
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
-          {/* Education */}
           <motion.div
             className="glass rounded-2xl p-8"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <GraduationCap className="w-8 h-8 text-primary mb-4" />
+            <GraduationCap className="w-8 h-8 text-foreground mb-4" />
             <h3 className="text-2xl font-bold text-foreground mb-2">Education</h3>
             <p className="text-muted-foreground">Currently in High School</p>
             <p className="text-sm text-muted-foreground mt-2">
@@ -381,18 +397,17 @@ const Index = () => {
             </p>
           </motion.div>
 
-          {/* Contact */}
           <motion.div
             className="glass rounded-2xl p-8"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <Mail className="w-8 h-8 text-primary mb-4" />
+            <Mail className="w-8 h-8 text-foreground mb-4" />
             <h3 className="text-2xl font-bold text-foreground mb-4">Get in Touch</h3>
             <a
               href="mailto:q@qn.ci"
-              className="text-primary hover:underline text-lg"
+              className="text-foreground hover:underline text-lg"
             >
               q@qn.ci
             </a>
@@ -415,7 +430,7 @@ const Index = () => {
       <footer className="relative py-8 px-4 border-t border-border/20">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-sm text-muted-foreground">
-            Built with passion by <span className="text-gradient font-semibold">Q</span> · © 2026
+            Built with passion by <span className="text-gradient font-semibold">Saif Medhat</span> · © 2026
           </p>
         </div>
       </footer>
