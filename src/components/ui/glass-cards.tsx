@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
     Brain, Code2, Layers, Bot, Workflow, Cpu,
     Palette, Smartphone, Search, Terminal, Globe, GraduationCap,
+    X
 } from 'lucide-react';
 import { cardData } from '../../lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,6 +31,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
     const cardRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const Icon = iconMap[iconName];
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const card = cardRef.current;
@@ -67,7 +70,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
         <div
             ref={containerRef}
             style={{
-                height: '70vh', // Reduced height for tighter stacking
+                height: '70vh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -80,7 +83,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                 style={{
                     position: 'relative',
                     width: '70%',
-                    height: '480px', // Slightly increased height for certificate
+                    height: '480px',
                     borderRadius: '24px',
                     isolation: 'isolate',
                     top: `calc(-5vh + ${index * 25}px)`,
@@ -127,14 +130,14 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     overflow: 'hidden',
                     padding: '3.5rem',
                 }}>
-                    {/* Glass reflection overlay */}
+                    {/* Smoothed Glass reflection overlay - extended to 100% height to avoid line */}
                     <div style={{
                         position: 'absolute',
                         top: 0,
                         left: 0,
                         right: 0,
-                        height: '60%',
-                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%)',
+                        height: '100%',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.02) 100%)',
                         pointerEvents: 'none',
                     }} />
 
@@ -169,41 +172,48 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                             lineHeight: 1.5,
                             maxWidth: '600px',
                             fontWeight: 600,
-                            margin: 0
+                            margin: 0,
+                            textShadow: '0 1px 2px rgba(255,255,255,0.2)' // Add slight lift for readability
                         }}>
                             {description}
                         </p>
 
                         {/* Certificate Badge */}
                         {certificateUrl && (
-                            <div className="group/cert" style={{
-                                marginTop: '1rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem',
-                                padding: '10px 16px',
-                                background: 'rgba(255, 255, 255, 0.3)',
-                                borderRadius: '16px',
-                                width: 'fit-content',
-                                border: '1px solid rgba(255, 255, 255, 0.4)',
-                                backdropFilter: 'blur(10px)',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
-                            }}>
+                            <div
+                                className="group/cert"
+                                onClick={() => setIsModalOpen(true)}
+                                style={{
+                                    marginTop: '1.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                    padding: '10px 16px',
+                                    background: 'rgba(255, 255, 255, 0.4)',
+                                    borderRadius: '16px',
+                                    width: 'fit-content',
+                                    border: '1px solid rgba(255, 255, 255, 0.5)',
+                                    backdropFilter: 'blur(10px)',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                                    userSelect: 'none'
+                                }}
+                            >
                                 <div style={{
                                     width: '60px',
                                     height: '40px',
                                     borderRadius: '8px',
                                     overflow: 'hidden',
                                     border: '1px solid rgba(0,0,0,0.1)',
-                                    background: '#f0f0f0'
-                                }}>
+                                    background: '#f0f0f0',
+                                    transition: 'transform 0.3s ease'
+                                }} className="group-hover/cert:scale-105">
                                     <img src={certificateUrl} alt="Certificate" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(0,0,0,0.4)', textTransform: 'uppercase', letterSpacing: '1px' }}>Verified Asset</span>
-                                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#1a1a1a' }}>Owner Certificate</span>
+                                    <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(0,0,0,0.4)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Verified Asset</span>
+                                    <span style={{ fontSize: '13px', fontWeight: 800, color: '#1a1a1a' }}>View Certificate</span>
                                 </div>
                             </div>
                         )}
@@ -223,6 +233,93 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     }} />
                 </div>
             </div>
+
+            {/* Certificate Modal */}
+            <AnimatePresence>
+                {isModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsModalOpen(false)}
+                        style={{
+                            position: 'fixed',
+                            inset: 0,
+                            zIndex: 9999,
+                            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                            backdropFilter: 'blur(15px)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '2rem',
+                            cursor: 'zoom-out'
+                        }}
+                    >
+                        <motion.button
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            style={{
+                                position: 'absolute',
+                                top: '2rem',
+                                right: '2rem',
+                                color: 'white',
+                                background: 'rgba(255,255,255,0.1)',
+                                border: 'none',
+                                borderRadius: 'full',
+                                padding: '1rem',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <X className="w-8 h-8" />
+                        </motion.button>
+
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                maxWidth: '90%',
+                                maxHeight: '90%',
+                                position: 'relative',
+                                borderRadius: '24px',
+                                overflow: 'hidden',
+                                boxShadow: '0 32px 64px rgba(0,0,0,0.5)',
+                                cursor: 'default'
+                            }}
+                        >
+                            <img
+                                src={certificateUrl}
+                                alt="Full Certificate"
+                                style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '80vh', objectFit: 'contain' }}
+                            />
+                            <div style={{
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                padding: '2rem',
+                                background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}>
+                                <div className="flex flex-col">
+                                    <span className="text-white font-black text-2xl uppercase tracking-tighter">{title}</span>
+                                    <span className="text-white/60 font-bold text-sm tracking-widest uppercase">Verified Skill Credential</span>
+                                </div>
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="px-6 py-2 bg-white text-black font-bold rounded-xl hover:scale-105 transition-transform active:scale-95"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
