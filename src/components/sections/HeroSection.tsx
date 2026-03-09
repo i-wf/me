@@ -90,6 +90,11 @@ const HeroSection = () => (
           </div>
           <div className="w-px h-8 bg-border/30 hidden sm:block" />
           <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Nickname</p>
+            <p className="text-lg font-bold text-foreground">Chef</p>
+          </div>
+          <div className="w-px h-8 bg-border/30 hidden sm:block" />
+          <div>
             <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Age</p>
             <p className="text-lg font-bold text-foreground">15 years old</p>
           </div>
