@@ -66,7 +66,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
         <div
             ref={containerRef}
             style={{
-                height: '100vh',
+                height: '70vh', // Reduced height for tighter stacking
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

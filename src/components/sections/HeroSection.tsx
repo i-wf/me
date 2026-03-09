@@ -3,6 +3,7 @@ import { Mail, ArrowDown, Sparkles } from "lucide-react";
 import ProfileCard from "@/components/ui/profile-card";
 import { SocialIcons } from "@/components/ui/social-icons";
 import { HeroDitheringCard } from "@/components/ui/hero-dithering-card";
+import ExpLevelCard from "@/components/ui/exp-level-card";
 
 const HeroSection = () => (
   <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20 pt-24">
@@ -64,20 +65,34 @@ const HeroSection = () => (
               </motion.div>
             </div>
 
-            <motion.div
-              className="flex justify-center lg:justify-end"
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ delay: 0.6, duration: 0.8, type: "spring" }}
-            >
-              <ProfileCard
-                name="Saif Medhat"
-                role="Full Stack Creator"
-                email="q@qn.ci"
-                statusText="Available for work"
-                glowText="Building the Future at 15"
-              />
-            </motion.div>
+            <div className="flex flex-col gap-4">
+              <motion.div
+                className="flex justify-center lg:justify-end"
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ delay: 0.6, duration: 0.8, type: "spring" }}
+              >
+                <ProfileCard
+                  name="Saif Medhat"
+                  role="Full Stack Creator"
+                  email="q@qn.ci"
+                  statusText="Available for work"
+                  glowText="Building the Future at 15"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.5 }}
+              >
+                <ExpLevelCard
+                  initialLevel={15}
+                  initialExp={75}
+                  baseColorClass="from-purple-900 to-black"
+                  highlightColorClass="border-purple-500/30"
+                />
+              </motion.div>
+            </div>
           </div>
 
           <motion.div

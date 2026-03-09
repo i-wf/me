@@ -29,10 +29,10 @@ export const cardData = [
   },
   {
     id: 4,
-    title: "Vibe Coding",
-    description: "Leveraging AI to accelerate prototyping and polished creative delivery.",
-    color: "rgba(234, 88, 12, 0.8)",
-    iconName: "Bot",
+    title: "Vibe Coder",
+    description: "Master of intuitive, high-speed development using Claude Code, OpenClaw, and the latest SOTA AI sources. Focusing on product vibes and rapid iteration.",
+    color: "hsl(280, 70%, 50%)",
+    iconName: "Zap",
   },
   {
     id: 5,

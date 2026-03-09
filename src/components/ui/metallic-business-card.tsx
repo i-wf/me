@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef } from 'react';
+import { Wifi } from 'lucide-react';
 
-type Metal = 'gold' | 'silver' | 'bronze' | 'platinum';
+type Metal = 'gold' | 'silver' | 'bronze' | 'platinum' | 'telda';
 
 export type MetallicBusinessCardProps = {
     name?: string;
@@ -33,6 +34,7 @@ const METAL_BG: Record<Metal, string> = {
     silver: '#dddde0',
     bronze: '#df9070',
     platinum: '#ffffff',
+    telda: '#1a1a1a', // Telda Black
 };
 
 const METAL_TOKENS: Record<
@@ -63,6 +65,12 @@ const METAL_TOKENS: Record<
         glow1: 'rgba(255, 255, 255, .42)',
         glow2: 'rgba(235, 240, 255, .2)',
     },
+    telda: {
+        ink: 'rgba(255, 255, 255, 0.95)',
+        sub: 'rgba(255, 255, 255, 0.6)',
+        glow1: 'rgba(255, 255, 255, 0.2)',
+        glow2: 'rgba(255, 255, 255, 0.1)',
+    },
 };
 
 export default function MetallicBusinessCard({
@@ -75,7 +83,7 @@ export default function MetallicBusinessCard({
     logoSrc,
     logoAlt = 'Logo',
 
-    metal = 'platinum',
+    metal = 'telda',
     width = 420,
     radius = 16,
     maxRotation = 40,
@@ -215,7 +223,7 @@ export default function MetallicBusinessCard({
                         surfaceScale="1"
                         specularConstant="1.8"
                         specularExponent="10"
-                        lightingColor="#7957A8"
+                        lightingColor="#ffffff"
                         in="turbulence"
                         result="specularLighting"
                     >
@@ -233,78 +241,104 @@ export default function MetallicBusinessCard({
             <div
                 ref={cardRef}
                 className="metallic-card"
-                style={{ width, height, position: 'relative', borderRadius: 'var(--border-radius)', transformStyle: 'preserve-3d', overflow: 'hidden', boxShadow: '0 10px 50px rgba(0, 0, 0, 0.25)', background: `radial-gradient(ellipse 160% 120% at var(--gradient-position-x) var(--gradient-position-y), transparent 0%, rgba(0, 0, 0, 1) 100%), conic-gradient(from var(--gradient-rotation) at 50% 50%, rgba(0, 0, 0, 0.6) -120deg, rgba(255, 255, 255, 0.4) 9deg, rgba(0, 0, 0, 0.4) 60deg, rgba(0, 0, 0, 0.06) 107deg, rgba(0, 0, 0, 0.3) 131deg, rgba(0, 0, 0, 0) 188deg, rgba(0, 0, 0, 0.6) 240deg, rgba(255, 255, 255, 0.4) 367deg), var(--bg-card)`, transform: 'rotateX(var(--rotate-x)) rotateY(var(--rotate-y))' }}
+                style={{
+                    width,
+                    height,
+                    position: 'relative',
+                    borderRadius: 'var(--border-radius)',
+                    transformStyle: 'preserve-3d',
+                    overflow: 'hidden',
+                    boxShadow: '0 10px 50px rgba(0, 0, 0, 0.4)',
+                    background: metal === 'telda'
+                        ? `linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)`
+                        : `radial-gradient(ellipse 160% 120% at var(--gradient-position-x) var(--gradient-position-y), transparent 0%, rgba(0, 0, 0, 1) 100%), conic-gradient(from var(--gradient-rotation) at 50% 50%, rgba(0, 0, 0, 0.6) -120deg, rgba(255, 255, 255, 0.4) 9deg, rgba(0, 0, 0, 0.4) 60deg, rgba(0, 0, 0, 0.06) 107deg, rgba(0, 0, 0, 0.3) 131deg, rgba(0, 0, 0, 0) 188deg, rgba(0, 0, 0, 0.6) 240deg, rgba(255, 255, 255, 0.4) 367deg), var(--bg-card)`,
+                    transform: 'rotateX(var(--rotate-x)) rotateY(var(--rotate-y))'
+                }}
                 onPointerMove={handlePointer}
                 onPointerLeave={resetTargets}
                 onBlur={resetTargets}
             >
+                {/* Visual noise for texture */}
                 <div
                     className="metallic-noise"
-                    style={{ position: 'absolute', inset: 0, borderRadius: 'var(--border-radius)', filter: 'var(--noise-filter)', opacity: 0.25, zIndex: 1 }}
+                    style={{ position: 'absolute', inset: 0, borderRadius: 'var(--border-radius)', filter: 'var(--noise-filter)', opacity: 0.15, zIndex: 1 }}
                 />
-                <div
-                    className="metallic-overlay"
-                    style={{ position: 'absolute', inset: 0, borderRadius: 'var(--border-radius)', background: 'var(--bg-card)', mixBlendMode: 'color', zIndex: 2 }}
-                />
+
+                {/* Telda S-Wave Pattern */}
+                {metal === 'telda' && (
+                    <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        zIndex: 2,
+                        opacity: 0.1,
+                        pointerEvents: 'none',
+                        background: 'radial-gradient(circle at 50% 50%, transparent 40%, rgba(255,255,255,0.1) 100%)'
+                    }}>
+                        <svg width="100%" height="100%" viewBox="0 0 420 265" preserveAspectRatio="none">
+                            <path
+                                d="M 0 132 Q 105 30 210 132 T 420 132"
+                                fill="none"
+                                stroke="#ffffff"
+                                strokeWidth="60"
+                                strokeLinecap="round"
+                                style={{ opacity: 0.5 }}
+                            />
+                        </svg>
+                    </div>
+                )}
 
                 <div
                     className="metallic-content"
-                    style={{ position: 'absolute', inset: 0, zIndex: 3, display: 'grid', gridTemplateRows: 'auto 1fr auto', gap: '0.45rem', padding: '2rem', color: 'var(--ink)', textShadow: '0 1px 0 rgba(255, 255, 255, 0.30), 0 8px 22px var(--glow-1), 0 2px 10px var(--glow-2)', alignItems: 'stretch', textAlign }}
+                    style={{ position: 'absolute', inset: 0, zIndex: 3, display: 'grid', gridTemplateRows: 'auto 1fr auto', gap: '0.45rem', padding: '2rem', color: 'var(--ink)', textShadow: '0 1px 2px rgba(0,0,0,0.5)', textAlign }}
                 >
-                    {/* Top Layer: Chip and Telda */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
-                        {/* Gold Chip */}
+                    {/* Top Layer: Telda and Wireless */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                        <h2 style={{
+                            margin: 0,
+                            fontSize: '24px',
+                            fontWeight: 900,
+                            letterSpacing: '-1px',
+                            fontFamily: 'sans-serif'
+                        }}>
+                            telda
+                        </h2>
+                        <Wifi className="w-8 h-8 rotate-90 opacity-80" />
+                    </div>
+
+                    {/* Middle Layer: Chip and Name */}
+                    <div style={{ alignSelf: 'center', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        {/* Metal Chip */}
                         <div style={{
-                            width: '45px',
-                            height: '35px',
-                            borderRadius: '6px',
-                            background: 'linear-gradient(135deg, #e5c07b 0%, #d19a66 50%, #98c379 100%)',
-                            boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.4)',
+                            width: '50px',
+                            height: '38px',
+                            borderRadius: '8px',
+                            background: 'linear-gradient(135deg, #d1d1d1 0%, #8e8e8e 50%, #d1d1d1 100%)', // Silver chip
+                            boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.3)',
                             display: 'grid',
                             gridTemplateColumns: 'repeat(3, 1fr)',
                             gridTemplateRows: 'repeat(3, 1fr)',
                             gap: '1px',
-                            padding: '4px',
-                            border: '1px solid rgba(0,0,0,0.1)'
+                            padding: '5px',
+                            border: '1px solid rgba(0,0,0,0.2)'
                         }}>
                             {[...Array(9)].map((_, i) => (
-                                <div key={i} style={{ border: '0.5px solid rgba(0,0,0,0.2)', borderRadius: '1px' }} />
+                                <div key={i} style={{ border: '0.5px solid rgba(0,0,0,0.3)', borderRadius: '1px' }} />
                             ))}
                         </div>
 
-                        {/* Telda Styling */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{
-                                width: '32px',
-                                height: '32px',
-                                borderRadius: '8px',
-                                backgroundColor: 'var(--ink)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'var(--bg-card)',
-                                fontWeight: 'bold',
-                                fontSize: '18px'
-                            }}>
-                                t
-                            </div>
-                            <span style={{ color: 'var(--ink)', fontWeight: 'bold', fontSize: '14px', letterSpacing: '1px' }}>TELDA</span>
+                        <div style={{ display: 'grid', gap: '0.2rem' }}>
+                            <h3 id={titleId} style={{ margin: 0, fontWeight: 800, letterSpacing: '0.05em', lineHeight: 1.1, fontSize: '1.4rem', color: 'var(--ink)' }}>
+                                {name}
+                            </h3>
+                            {role && <p style={{ margin: 0, color: 'var(--ink-sub)', fontWeight: 600, letterSpacing: '0.1em', fontSize: '0.9rem', textTransform: 'uppercase' }}>{role}</p>}
                         </div>
                     </div>
 
-                    <div style={{ alignSelf: 'center', display: 'grid', gap: '0.15rem' }}>
-                        <h3 id={titleId} style={{ margin: 0, fontWeight: 800, letterSpacing: '0.01em', lineHeight: 1.12, fontSize: 'clamp(1.5rem, 2vw, 2rem)', color: 'var(--ink)' }}>
-                            {name}
-                        </h3>
-                        {role && <p style={{ margin: '0.05rem 0 0 0', color: 'var(--ink)', fontWeight: 800, letterSpacing: '0.02em', lineHeight: 1.25, fontSize: '1rem' }}>{role}</p>}
-                        {company && <p style={{ margin: '0.1rem 0 0 0', color: 'var(--ink)', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.1em', lineHeight: 1.18, fontVariantCaps: 'all-small-caps' }}>{company}</p>}
-                    </div>
-
+                    {/* Bottom Layer: Info and Mastercard */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
                         {(email || phone || website) && (
-                            <div style={{ display: 'grid', gap: '0.14rem', color: 'var(--ink)', fontSize: '0.80rem', letterSpacing: '0.05em', fontWeight: 700 }}>
+                            <div style={{ display: 'grid', gap: '0.2rem', color: 'var(--ink-sub)', fontSize: '0.85rem', letterSpacing: '0.1em', fontWeight: 600 }}>
                                 {email && <p style={{ margin: 0 }}>{email}</p>}
-                                {phone && <p style={{ margin: 0 }}>{phone}</p>}
                                 {website && <p style={{ margin: 0 }}>{website}</p>}
                             </div>
                         )}
@@ -318,7 +352,7 @@ export default function MetallicBusinessCard({
                                 height: '36px',
                                 borderRadius: '50%',
                                 backgroundColor: '#eb001b',
-                                opacity: 0.9
+                                opacity: 0.95
                             }} />
                             <div style={{
                                 position: 'absolute',
@@ -327,7 +361,7 @@ export default function MetallicBusinessCard({
                                 height: '36px',
                                 borderRadius: '50%',
                                 backgroundColor: '#ff5f00',
-                                opacity: 0.9
+                                opacity: 0.95
                             }} />
                         </div>
                     </div>
@@ -345,15 +379,12 @@ export default function MetallicBusinessCard({
         .metallic-card {
            transition: transform 0.1s ease-out, box-shadow 0.2s ease-out;
         }
-        .metallic-content::before {
-          content: '';
-          position: absolute;
-          inset: 0.6rem;
-          border-radius: calc(var(--border-radius) - 8px);
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)), radial-gradient(80% 40% at 50% 0%, rgba(255, 255, 255, 0.06), transparent 60%);
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-          backdrop-filter: blur(2px) saturate(1.07);
-          z-index: -1;
+        .metallic-content::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none;
         }
       `}</style>
         </div>
