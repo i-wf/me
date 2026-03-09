@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Home, User, Briefcase, MessageSquare
+  Home, User, Briefcase, MessageSquare, Code, Award
 } from "lucide-react";
 import { FallingPattern } from "@/components/ui/falling-pattern";
 import { CursorTrail } from "@/components/ui/cursor-trail";
 import { AnimeNavBar } from "@/components/ui/anime-navbar";
 import { SplashScreen } from "@/components/ui/splash-screen";
+import { HeroDitheringCard } from "@/components/ui/hero-dithering-card";
 import HeroSection from "@/components/sections/HeroSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ArsenalSection from "@/components/sections/ArsenalSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import BusinessCardSection from "@/components/sections/BusinessCardSection";
 import ContactSection from "@/components/sections/ContactSection";
 
 const navItems = [
   { name: "Home", url: "#hero", icon: Home },
-  { name: "Skills", url: "#skills", icon: User },
+  { name: "Skills", url: "#skills", icon: Code },
+  { name: "Business Card", url: "#business-card", icon: Award },
   { name: "Projects", url: "#projects", icon: Briefcase },
   { name: "Contact", url: "#contact", icon: MessageSquare },
 ];
@@ -56,6 +59,7 @@ const Index = () => {
       <AnimeNavBar items={navItems} defaultActive="Home" />
       <HeroSection />
       <SkillsSection />
+      <BusinessCardSection />
       <ArsenalSection />
       <ProjectsSection />
       <TestimonialsSection />
