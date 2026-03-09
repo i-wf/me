@@ -9,74 +9,86 @@ export const cardData = [
   {
     id: 1,
     title: "AI Engineering",
-    description: "Building intelligent AI-powered systems and integrations",
-    color: "rgba(99, 102, 241, 0.8)",
+    description: "Architecting state-of-the-art AI systems and integrating LLMs into production workflows for intelligent automation.",
+    color: "rgba(220, 38, 38, 0.9)", // Red for the top card as requested
+    iconName: "Brain",
   },
   {
     id: 2,
     title: "Web Development",
-    description: "React, TypeScript, Tailwind & Next.js applications",
-    color: "rgba(59, 130, 246, 0.8)",
+    description: "Crafting high-performance web applications using the modern React ecosystem with a focus on speed and SEO.",
+    color: "rgba(243, 244, 246, 0.9)", // Light grey/white
+    iconName: "Code2",
   },
   {
     id: 3,
     title: "Full Stack Dev",
-    description: "Frontend to backend, end-to-end product delivery",
-    color: "rgba(16, 185, 129, 0.8)",
+    description: "Building scalable end-to-end architectures, from responsive frontends to robust server-side infrastructures.",
+    color: "rgba(209, 213, 219, 0.9)", // Medium grey
+    iconName: "Layers",
   },
   {
     id: 4,
     title: "Vibe Coding",
-    description: "AI-assisted creative development workflows",
-    color: "rgba(236, 72, 153, 0.8)",
+    description: "Pioneering creative development cycles by leveraging AI to accelerate prototyping and polished delivery.",
+    color: "rgba(156, 163, 175, 0.9)", // Darker grey
+    iconName: "Bot",
   },
   {
     id: 5,
     title: "N8N Automations",
-    description: "Complex workflow automation and integrations",
-    color: "rgba(245, 158, 11, 0.8)",
+    description: "Designing complex multi-platform automation workflows to eliminate manual tasks and streamline operations.",
+    color: "rgba(229, 231, 235, 0.9)", // Off-white
+    iconName: "Workflow",
   },
   {
     id: 6,
     title: "Machine Learning",
-    description: "Training models & data pipelines at scale",
-    color: "rgba(139, 92, 246, 0.8)",
+    description: "Developing and training predictive models, handling large datasets, and optimizing data processing pipelines.",
+    color: "rgba(107, 114, 128, 0.9)", // Dark grey
+    iconName: "Cpu",
   },
   {
     id: 7,
     title: "Graphic Design",
-    description: "Brand identities & visual assets creation",
-    color: "rgba(244, 63, 94, 0.8)",
+    description: "Formulating compelling brand identities and high-impact visual assets for digital and print media.",
+    color: "rgba(249, 250, 251, 0.9)", // Bright white
+    iconName: "Palette",
   },
   {
     id: 8,
     title: "UI/UX Design",
-    description: "Intuitive interfaces & user flow design",
-    color: "rgba(14, 165, 233, 0.8)",
+    description: "Creating intuitive, user-centric interfaces and friction-less user experiences through rigorous prototyping.",
+    color: "rgba(229, 231, 235, 0.9)", // Off-white
+    iconName: "Smartphone",
   },
   {
     id: 9,
     title: "Data Scraping",
-    description: "Automated data extraction at scale",
-    color: "rgba(34, 197, 94, 0.8)",
+    description: "Implementing resilient automated data extraction systems to gather actionable insights from web sources.",
+    color: "rgba(156, 163, 175, 0.9)", // Darker grey
+    iconName: "Search",
   },
   {
     id: 10,
     title: "6+ Languages",
-    description: "Python, JS, TS, C++, and more",
-    color: "rgba(251, 146, 60, 0.8)",
+    description: "Fluent in multiple programming paradigms across Python, JavaScript, TypeScript, C++, and more.",
+    color: "rgba(209, 213, 219, 0.9)", // Medium grey
+    iconName: "Terminal",
   },
   {
     id: 11,
     title: "Data Research",
-    description: "Deep analysis & insight extraction",
-    color: "rgba(168, 85, 247, 0.8)",
+    description: "Conducting deep technical research and analysis to uncover trends and drive strategic decisions.",
+    color: "rgba(243, 244, 246, 0.9)", // Light grey
+    iconName: "Globe",
   },
   {
     id: 12,
     title: "Skill Coaching",
-    description: "Teaching & mentoring in tech",
-    color: "rgba(56, 189, 248, 0.8)",
+    description: "Mentoring emerging talent and sharing technical knowledge through structured coaching and workshops.",
+    color: "rgba(107, 114, 128, 0.9)", // Dark grey
+    iconName: "GraduationCap",
   },
 ];
 
