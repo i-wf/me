@@ -26,6 +26,36 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
     setMounted(true);
   }, []);
 
+  // Track which section is currently in view
+  useEffect(() => {
+    if (!mounted) return;
+
+    const sectionIds = items.map((item) => item.url.replace("#", ""));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const matchedItem = items.find(
+              (item) => item.url === `#${entry.target.id}`
+            );
+            if (matchedItem) {
+              setActiveTab(matchedItem.name);
+            }
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [mounted, items]);
+
   if (!mounted) return null;
 
   return (

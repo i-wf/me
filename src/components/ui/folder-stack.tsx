@@ -1,107 +1,166 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import * as Icons from "lucide-react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import {
+    Brain, Code2, Layers, Bot, Workflow, Cpu,
+    Palette, Smartphone, Search, Terminal, Globe, GraduationCap,
+} from "lucide-react";
 import { cardData } from "../../lib/utils";
-import { cn } from "../../lib/utils";
 
-const FolderStack = () => {
-    const [cards, setCards] = useState(cardData);
+const iconMap: Record<string, React.FC<{ className?: string }>> = {
+    Brain, Code2, Layers, Bot, Workflow, Cpu,
+    Palette, Smartphone, Search, Terminal, Globe, GraduationCap,
+};
 
-    const shiftCard = () => {
-        setCards((prevCards) => {
-            const newCards = [...prevCards];
-            const shifted = newCards.shift();
-            if (shifted) newCards.push(shifted);
-            return newCards;
-        });
-    };
+interface SkillCardProps {
+    card: typeof cardData[0];
+    index: number;
+    total: number;
+    scrollYProgress: any;
+}
+
+function isLightColor(rgba: string): boolean {
+    const match = rgba.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (!match) return false;
+    const [, r, g, b] = match.map(Number);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance > 0.55;
+}
+
+const SkillCard: React.FC<SkillCardProps> = ({ card, index, total, scrollYProgress }) => {
+    const Icon = iconMap[card.iconName];
+    const light = isLightColor(card.color);
+
+    // Each card enters and scales based on scroll progress
+    const cardStart = index / total;
+    const cardEnd = (index + 1) / total;
+
+    const y = useTransform(
+        scrollYProgress,
+        [cardStart, cardEnd],
+        [100, index * -8]
+    );
+
+    const scale = useTransform(
+        scrollYProgress,
+        [cardStart, cardEnd],
+        [0.92, 1 - index * 0.02]
+    );
+
+    const opacity = useTransform(
+        scrollYProgress,
+        [cardStart, Math.min(cardEnd + 0.05, 1)],
+        [0, 1]
+    );
 
     return (
-        <div className="relative w-full max-w-4xl mx-auto h-[500px] flex items-center justify-center perspective-[1000px]">
-            <div className="relative w-[80%] h-[400px]">
-                <AnimatePresence mode="popLayout">
-                    {cards.map((card, index) => {
-                        const IconComponent = (Icons as any)[card.iconName];
+        <motion.div
+            style={{
+                y,
+                scale,
+                opacity,
+                zIndex: total - index,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+            }}
+            className="w-full"
+        >
+            <div
+                className="relative rounded-3xl p-8 md:p-10 overflow-hidden border"
+                style={{
+                    backgroundColor: card.color,
+                    borderColor: light ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.15)",
+                    boxShadow: "0 20px 60px -15px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.15)",
+                    minHeight: "350px",
+                }}
+            >
+                {/* Glass reflection */}
+                <div
+                    className="absolute top-0 left-0 right-0 pointer-events-none rounded-t-3xl"
+                    style={{
+                        height: "50%",
+                        background: light
+                            ? "linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%)"
+                            : "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%)",
+                    }}
+                />
 
-                        // Only render the top 5 cards for performance and visual clarity
-                        if (index > 4) return null;
-
-                        return (
-                            <motion.div
-                                key={card.id}
-                                layout
-                                initial={{ scale: 0.9, y: index * -15, zIndex: 10 - index, opacity: 0 }}
-                                animate={{
-                                    scale: 1 - index * 0.05,
-                                    y: index * -12,
-                                    zIndex: 10 - index,
-                                    opacity: 1 - index * 0.15
-                                }}
-                                exit={{
-                                    x: 300,
-                                    opacity: 0,
-                                    scale: 0.8,
-                                    rotate: 15,
-                                    zIndex: 20
-                                }}
-                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                                className={cn(
-                                    "absolute inset-0 rounded-[32px] p-8 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer border border-white/10",
-                                )}
-                                style={{
-                                    backgroundColor: card.color,
-                                    backdropFilter: "blur(20px) saturate(180%)",
-                                }}
-                                onClick={shiftCard}
-                            >
-                                {/* Folder Tab Effect */}
-                                <div
-                                    className="absolute top-0 right-10 h-8 w-32 rounded-b-2xl border-x border-b border-white/20"
-                                    style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
+                {/* Content */}
+                <div className="relative z-10 flex flex-col h-full justify-between gap-6" style={{ minHeight: "280px" }}>
+                    <div className="space-y-5">
+                        <div
+                            className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                            style={{
+                                backgroundColor: light ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.12)",
+                            }}
+                        >
+                            {Icon && (
+                                <Icon
+                                    className="w-7 h-7"
+                                    style={{ color: light ? "#1a1a1a" : "#ffffff" }}
                                 />
+                            )}
+                        </div>
 
-                                <div className="relative z-10 space-y-4">
-                                    <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md">
-                                        {IconComponent && <IconComponent className="w-8 h-8 text-white" />}
-                                    </div>
+                        <h3
+                            className="text-3xl md:text-4xl font-extrabold tracking-tight"
+                            style={{ color: light ? "#0a0a0a" : "#ffffff" }}
+                        >
+                            {card.title}
+                        </h3>
+                    </div>
 
-                                    <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-                                        {card.title}
-                                    </h3>
-                                </div>
+                    <p
+                        className="text-base md:text-lg leading-relaxed max-w-lg"
+                        style={{ color: light ? "rgba(0,0,0,0.65)" : "rgba(255,255,255,0.75)" }}
+                    >
+                        {card.description}
+                    </p>
+                </div>
 
-                                <div className="relative z-10 max-w-md">
-                                    <p className="text-white/80 text-lg leading-relaxed font-medium">
-                                        {card.description}
-                                    </p>
-                                </div>
-
-                                {/* Glass Reflection */}
-                                <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
-
-                                {/* Subtle pattern */}
-                                <div className="absolute bottom-[-20%] right-[-10%] w-64 h-64 bg-white/5 blur-3xl rounded-full" />
-                            </motion.div>
-                        );
-                    })}
-                </AnimatePresence>
+                {/* Decorative glow blob */}
+                <div
+                    className="absolute bottom-[-30%] right-[-15%] w-72 h-72 rounded-full blur-3xl pointer-events-none"
+                    style={{
+                        background: light
+                            ? "rgba(0,0,0,0.04)"
+                            : "rgba(255,255,255,0.06)",
+                    }}
+                />
             </div>
+        </motion.div>
+    );
+};
 
-            {/* Visual background stacks (tabs) */}
-            <div className="absolute top-[10%] left-1/2 -translate-x-1/2 flex items-center justify-center -space-x-32 pointer-events-none">
-                {[...Array(3)].map((_, i) => (
-                    <div
-                        key={i}
-                        className="w-48 h-10 rounded-t-3xl border-t border-x border-white/10"
-                        style={{
-                            backgroundColor: "rgba(255,255,255,0.05)",
-                            transform: `translateY(${i * -8}px) scale(${1 - i * 0.1})`,
-                            zIndex: -1 - i
-                        }}
-                    />
-                ))}
+const FolderStack = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"],
+    });
+
+    return (
+        <div
+            ref={containerRef}
+            style={{ height: `${cardData.length * 80}vh` }}
+            className="relative"
+        >
+            <div className="sticky top-[15vh] w-full max-w-3xl mx-auto px-4 h-[70vh]">
+                <div className="relative w-full h-[400px]">
+                    {cardData.map((card, index) => (
+                        <SkillCard
+                            key={card.id}
+                            card={card}
+                            index={index}
+                            total={cardData.length}
+                            scrollYProgress={scrollYProgress}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );
