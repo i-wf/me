@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Home, User, Briefcase, MessageSquare, BookOpen
+  Home, User, Briefcase, MessageSquare
 } from "lucide-react";
 import { FallingPattern } from "@/components/ui/falling-pattern";
 import { CursorTrail } from "@/components/ui/cursor-trail";
@@ -11,7 +11,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ArsenalSection from "@/components/sections/ArsenalSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
-import BlogSection from "@/components/sections/BlogSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import ContactSection from "@/components/sections/ContactSection";
 
@@ -19,7 +18,6 @@ const navItems = [
   { name: "Home", url: "#hero", icon: Home },
   { name: "Skills", url: "#skills", icon: User },
   { name: "Projects", url: "#projects", icon: Briefcase },
-  { name: "Blog", url: "#blog", icon: BookOpen },
   { name: "Contact", url: "#contact", icon: MessageSquare },
 ];
 
@@ -60,7 +58,6 @@ const Index = () => {
       <SkillsSection />
       <ArsenalSection />
       <ProjectsSection />
-      <BlogSection />
       <TestimonialsSection />
       <ContactSection />
 
