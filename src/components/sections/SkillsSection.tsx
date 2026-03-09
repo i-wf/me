@@ -4,21 +4,45 @@ import {
   Workflow, Search, GraduationCap,
   Terminal, Layers, Smartphone, Globe
 } from "lucide-react";
+import DisplayCards from "@/components/ui/display-cards";
 
 const skills = [
-  { icon: Brain, title: "AI Engineering", desc: "Building intelligent AI-powered systems" },
-  { icon: Code2, title: "Web Development", desc: "React, TypeScript, Tailwind & Next.js" },
-  { icon: Layers, title: "Full Stack Dev", desc: "Frontend to backend, end-to-end solutions" },
-  { icon: Bot, title: "Vibe Coding", desc: "AI-assisted creative development" },
-  { icon: Workflow, title: "N8N Automations", desc: "Complex workflow automation systems" },
-  { icon: Cpu, title: "Machine Learning", desc: "Training models & data pipelines" },
-  { icon: Palette, title: "Graphic Design", desc: "Brand identities & visual assets" },
-  { icon: Smartphone, title: "UI/UX Design", desc: "Intuitive interfaces & user flows" },
-  { icon: Search, title: "Data Scraping", desc: "Automated data extraction at scale" },
-  { icon: Terminal, title: "6+ Languages", desc: "Python, JS, TS, C++, and more" },
-  { icon: Globe, title: "Data Research", desc: "Deep analysis & insight extraction" },
-  { icon: GraduationCap, title: "Skill Coaching", desc: "Teaching & mentoring in tech" },
+  { icon: <Brain className="w-4 h-4" />, title: "AI Engineering", description: "Building intelligent AI-powered systems", date: "Core Skill" },
+  { icon: <Code2 className="w-4 h-4" />, title: "Web Development", description: "React, TypeScript, Tailwind & Next.js", date: "Core Skill" },
+  { icon: <Layers className="w-4 h-4" />, title: "Full Stack Dev", description: "Frontend to backend, end-to-end", date: "Core Skill" },
+  { icon: <Bot className="w-4 h-4" />, title: "Vibe Coding", description: "AI-assisted creative development", date: "Specialty" },
+  { icon: <Workflow className="w-4 h-4" />, title: "N8N Automations", description: "Complex workflow automation", date: "Specialty" },
+  { icon: <Cpu className="w-4 h-4" />, title: "Machine Learning", description: "Training models & data pipelines", date: "Core Skill" },
+  { icon: <Palette className="w-4 h-4" />, title: "Graphic Design", description: "Brand identities & visual assets", date: "Creative" },
+  { icon: <Smartphone className="w-4 h-4" />, title: "UI/UX Design", description: "Intuitive interfaces & user flows", date: "Creative" },
+  { icon: <Search className="w-4 h-4" />, title: "Data Scraping", description: "Automated data extraction at scale", date: "Specialty" },
+  { icon: <Terminal className="w-4 h-4" />, title: "6+ Languages", description: "Python, JS, TS, C++, and more", date: "Foundation" },
+  { icon: <Globe className="w-4 h-4" />, title: "Data Research", description: "Deep analysis & insight extraction", date: "Specialty" },
+  { icon: <GraduationCap className="w-4 h-4" />, title: "Skill Coaching", description: "Teaching & mentoring in tech", date: "Passion" },
 ];
+
+// Each card offsets by translate-x and translate-y, with grayscale overlay that clears on hover
+const skillCards = skills.map((skill, i) => {
+  const xOffset = i * 14;  // px right
+  const yOffset = i * 10;  // px down
+  const isLast = i === skills.length - 1;
+
+  // All cards except the last get a grayscale overlay
+  const overlayClass = isLast
+    ? ""
+    : "before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0";
+
+  return {
+    icon: skill.icon,
+    title: skill.title,
+    description: skill.description,
+    date: skill.date,
+    iconClassName: "text-foreground",
+    titleClassName: "text-foreground",
+    className: `[grid-area:stack] hover:-translate-y-10 ${overlayClass}`,
+    style: { transform: `translate(${xOffset}px, ${yOffset}px)` },
+  };
+});
 
 const SkillsSection = () => (
   <section id="skills" className="relative py-24 px-4">
@@ -34,47 +58,41 @@ const SkillsSection = () => (
           What I Do
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Hover over the stack to explore all my skills
+          Hover over the cards to explore my skills
         </p>
       </motion.div>
 
       <motion.div
-        className="flex justify-center"
+        className="flex justify-center overflow-visible pb-40"
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
       >
-        <div
-          className="relative grid place-items-center"
-          style={{ gridTemplateAreas: "'stack'", minHeight: "180px" }}
-        >
-          {skills.map((skill, index) => {
-            const Icon = skill.icon;
-            // Small vertical-only offset so cards peek out behind each other
-            const yOffset = index * 3;
-            const xOffset = index * 1.5;
+        <div className="grid [grid-template-areas:'stack'] place-items-center">
+          {skillCards.map((card, index) => {
+            const xOffset = index * 14;
+            const yOffset = index * 10;
+            const isLast = index === skillCards.length - 1;
+
+            const overlayClass = isLast
+              ? ""
+              : "before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0";
+
             return (
-              <motion.div
-                key={skill.title}
-                className="relative flex w-[22rem] flex-col gap-2 overflow-hidden rounded-xl glass p-5 cursor-default"
+              <div
+                key={card.title}
+                className={`[grid-area:stack] relative flex w-[22rem] flex-col gap-3 overflow-hidden rounded-xl glass p-5 transition-all duration-500 ease-out cursor-default hover:-translate-y-10 [&>*]:flex [&>*]:items-center [&>*]:gap-2 ${overlayClass}`}
                 style={{
-                  gridArea: "stack",
-                  zIndex: skills.length - index,
-                }}
-                initial={{ x: xOffset, y: yOffset }}
-                whileHover={{
-                  y: -50,
-                  zIndex: 50,
-                  scale: 1.03,
-                  transition: { duration: 0.25, ease: "easeOut" },
+                  transform: `translate(${xOffset}px, ${yOffset}px)`,
                 }}
               >
-                <div className="flex items-center gap-2">
-                  <Icon className="w-4 h-4 text-foreground" />
-                  <p className="text-base font-semibold text-foreground">{skill.title}</p>
+                <div>
+                  <span className="relative z-10 text-foreground">{card.icon}</span>
+                  <p className="text-base font-semibold text-foreground">{card.title}</p>
                 </div>
-                <p className="text-sm text-muted-foreground">{skill.desc}</p>
-              </motion.div>
+                <p className="text-sm text-muted-foreground whitespace-nowrap">{card.description}</p>
+                <p className="text-xs text-muted-foreground/60">{card.date}</p>
+              </div>
             );
           })}
         </div>
