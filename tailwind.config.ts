@@ -130,6 +130,8 @@ export default {
         shimmer: "shimmer 3s ease-in-out infinite",
         "spin-slow": "spin-slow 20s linear infinite",
         "border-beam": "border-beam 4s linear infinite",
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
+        shine: "shine 3s ease-in-out infinite",
       },
     },
   },
