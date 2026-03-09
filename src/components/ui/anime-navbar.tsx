@@ -21,20 +21,15 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
   const [mounted, setMounted] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(defaultActive);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   if (!mounted) return null;
 
   return (
-    <div className={cn("fixed bottom-6 left-1/2 -translate-x-1/2 z-50", className)}>
+    <div className={cn("fixed top-4 left-1/2 -translate-x-1/2 z-50", className)}>
       <div className="glass-strong rounded-full px-2 py-2 flex items-center gap-1 shadow-2xl">
         <AnimatePresence>
           {items.map((item) => {

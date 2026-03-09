@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import { Mail, ArrowDown, Sparkles } from "lucide-react";
+import { Mail, ArrowDown } from "lucide-react";
 import ProfileCard from "@/components/ui/profile-card";
 
 const HeroSection = () => (
-  <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 py-20">
+  <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20 pt-24">
     <div className="relative z-10 w-full max-w-6xl mx-auto">
       <motion.div
         className="glass-strong rounded-3xl p-8 md:p-12 lg:p-16 glow-soft"
@@ -13,16 +13,6 @@ const HeroSection = () => (
       >
         <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-center">
           <div className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs text-muted-foreground"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-foreground" />
-              15 years old · Full Stack Creator
-            </motion.div>
-
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight"
               initial={{ opacity: 0, y: 30 }}
@@ -83,6 +73,34 @@ const HeroSection = () => (
         >
           <ArrowDown className="w-5 h-5 text-muted-foreground" />
         </motion.div>
+      </motion.div>
+
+      {/* About Me mini section */}
+      <motion.div
+        className="mt-6 glass rounded-2xl p-6 flex flex-wrap items-center justify-center gap-8 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.6 }}
+      >
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Name</p>
+          <p className="text-lg font-bold text-foreground">Saif Medhat</p>
+        </div>
+        <div className="w-px h-8 bg-border/30 hidden sm:block" />
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Age</p>
+          <p className="text-lg font-bold text-foreground">15 years old</p>
+        </div>
+        <div className="w-px h-8 bg-border/30 hidden sm:block" />
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Role</p>
+          <p className="text-lg font-bold text-foreground">Full Stack Creator</p>
+        </div>
+        <div className="w-px h-8 bg-border/30 hidden sm:block" />
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Email</p>
+          <a href="mailto:q@qn.ci" className="text-lg font-bold text-foreground hover:underline">q@qn.ci</a>
+        </div>
       </motion.div>
     </div>
   </section>
