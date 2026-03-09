@@ -4,128 +4,20 @@ import {
   Workflow, Search, GraduationCap,
   Terminal, Layers, Smartphone, Globe, Sparkles
 } from "lucide-react";
-import DisplayCards from "@/components/ui/display-cards";
 
-const allSkillCards = [
-  {
-    icon: <Brain className="w-4 h-4" />,
-    title: "AI Engineering",
-    description: "Building intelligent AI-powered systems",
-    date: "Core Skill",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Code2 className="w-4 h-4" />,
-    title: "Web Development",
-    description: "React, TypeScript, Tailwind & Next.js",
-    date: "Core Skill",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-8 translate-y-6 hover:-translate-y-2 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Layers className="w-4 h-4" />,
-    title: "Full Stack Dev",
-    description: "Frontend to backend, end-to-end solutions",
-    date: "Core Skill",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-16 translate-y-12 hover:translate-y-2 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Bot className="w-4 h-4" />,
-    title: "Vibe Coding",
-    description: "AI-assisted creative development",
-    date: "Specialty",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-24 translate-y-18 hover:translate-y-8 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Workflow className="w-4 h-4" />,
-    title: "N8N Automations",
-    description: "Complex workflow automation systems",
-    date: "Specialty",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-32 translate-y-24 hover:translate-y-14 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Cpu className="w-4 h-4" />,
-    title: "Machine Learning",
-    description: "Training models & data pipelines",
-    date: "Core Skill",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-40 translate-y-30 hover:translate-y-20 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Palette className="w-4 h-4" />,
-    title: "Graphic Design",
-    description: "Brand identities & visual assets",
-    date: "Creative",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-48 translate-y-36 hover:translate-y-26 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Smartphone className="w-4 h-4" />,
-    title: "UI/UX Design",
-    description: "Intuitive interfaces & user flows",
-    date: "Creative",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-56 translate-y-42 hover:translate-y-32 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Search className="w-4 h-4" />,
-    title: "Data Scraping",
-    description: "Automated data extraction at scale",
-    date: "Specialty",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-64 translate-y-48 hover:translate-y-38 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Terminal className="w-4 h-4" />,
-    title: "6+ Languages",
-    description: "Python, JS, TS, C++, and more",
-    date: "Foundation",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-72 translate-y-54 hover:translate-y-44 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <Globe className="w-4 h-4" />,
-    title: "Data Research",
-    description: "Deep analysis & insight extraction",
-    date: "Specialty",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className:
-      "[grid-area:stack] translate-x-80 translate-y-60 hover:translate-y-50 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-border before:h-full before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
-  },
-  {
-    icon: <GraduationCap className="w-4 h-4" />,
-    title: "Skill Coaching",
-    description: "Teaching & mentoring in tech",
-    date: "Passion",
-    iconClassName: "text-foreground",
-    titleClassName: "text-foreground",
-    className: "[grid-area:stack] translate-x-[352px] translate-y-[264px] hover:translate-y-[224px]",
-  },
+const skills = [
+  { icon: Brain, title: "AI Engineering", desc: "Building intelligent AI-powered systems" },
+  { icon: Code2, title: "Web Development", desc: "React, TypeScript, Tailwind & Next.js" },
+  { icon: Layers, title: "Full Stack Dev", desc: "Frontend to backend, end-to-end solutions" },
+  { icon: Bot, title: "Vibe Coding", desc: "AI-assisted creative development" },
+  { icon: Workflow, title: "N8N Automations", desc: "Complex workflow automation systems" },
+  { icon: Cpu, title: "Machine Learning", desc: "Training models & data pipelines" },
+  { icon: Palette, title: "Graphic Design", desc: "Brand identities & visual assets" },
+  { icon: Smartphone, title: "UI/UX Design", desc: "Intuitive interfaces & user flows" },
+  { icon: Search, title: "Data Scraping", desc: "Automated data extraction at scale" },
+  { icon: Terminal, title: "6+ Languages", desc: "Python, JS, TS, C++, and more" },
+  { icon: Globe, title: "Data Research", desc: "Deep analysis & insight extraction" },
+  { icon: GraduationCap, title: "Skill Coaching", desc: "Teaching & mentoring in tech" },
 ];
 
 const SkillsSection = () => (
@@ -147,13 +39,39 @@ const SkillsSection = () => (
       </motion.div>
 
       <motion.div
-        className="flex justify-center py-10 overflow-visible"
+        className="flex justify-center"
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
       >
-        <div className="relative" style={{ minHeight: "380px", minWidth: "600px" }}>
-          <DisplayCards cards={allSkillCards} />
+        <div className="grid place-items-center" style={{ gridTemplateAreas: "'stack'" }}>
+          {skills.map((skill, index) => {
+            const Icon = skill.icon;
+            const offset = index * 4;
+            return (
+              <motion.div
+                key={skill.title}
+                className="relative flex w-[22rem] flex-col gap-2 overflow-hidden rounded-xl glass p-5 cursor-default transition-all duration-500"
+                style={{
+                  gridArea: "stack",
+                  translate: `${offset}px ${offset}px`,
+                  zIndex: skills.length - index,
+                }}
+                whileHover={{
+                  y: -40,
+                  zIndex: 50,
+                  scale: 1.02,
+                  transition: { duration: 0.3, ease: "easeOut" },
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <Icon className="w-4 h-4 text-foreground" />
+                  <p className="text-base font-semibold text-foreground">{skill.title}</p>
+                </div>
+                <p className="text-sm text-muted-foreground">{skill.desc}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </motion.div>
     </div>
