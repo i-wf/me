@@ -1,9 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+    Brain, Code2, Layers, Bot, Workflow, Cpu,
+    Palette, Smartphone, Search, Terminal, Globe, GraduationCap,
+} from 'lucide-react';
 import { cardData } from '../../lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const iconMap: Record<string, React.FC<{ className?: string; style?: React.CSSProperties }>> = {
+    Brain, Code2, Layers, Bot, Workflow, Cpu,
+    Palette, Smartphone, Search, Terminal, Globe, GraduationCap,
+};
 
 interface CardProps {
     id: number;
@@ -12,11 +21,13 @@ interface CardProps {
     index: number;
     totalCards: number;
     color: string;
+    iconName: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, index, totalCards, color }) => {
+const Card: React.FC<CardProps> = ({ title, description, index, totalCards, color, iconName }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const Icon = iconMap[iconName];
 
     useEffect(() => {
         const card = cardRef.current;
@@ -25,13 +36,11 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
 
         const targetScale = 1 - (totalCards - index) * 0.05;
 
-        // Set initial state
         gsap.set(card, {
             scale: 1,
             transformOrigin: "center top"
         });
 
-        // Create scroll trigger for stacking effect
         const trigger = ScrollTrigger.create({
             trigger: container,
             start: "top center",
@@ -106,7 +115,6 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    alignItems: 'center',
                     borderRadius: '24px',
                     background: `
                         linear-gradient(145deg, 
@@ -123,10 +131,9 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                         inset 0 -1px 0 rgba(255, 255, 255, 0.1)
                     `,
                     overflow: 'hidden',
-                    padding: '2rem',
-                    gap: '1rem'
+                    padding: '3rem',
                 }}>
-                    {/* Enhanced Glass reflection overlay */}
+                    {/* Glass reflection overlay */}
                     <div style={{
                         position: 'absolute',
                         top: 0,
@@ -180,29 +187,38 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                         opacity: 0.7
                     }} />
 
-                    {/* Card title and description */}
-                    <h3 style={{
-                        position: 'relative',
-                        zIndex: 1,
-                        fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
-                        fontWeight: 800,
-                        color: '#ffffff',
-                        textAlign: 'center',
-                        lineHeight: 1.2,
-                    }}>
-                        {title}
-                    </h3>
-                    <p style={{
-                        position: 'relative',
-                        zIndex: 1,
-                        fontSize: 'clamp(0.9rem, 1.5vw, 1.2rem)',
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        textAlign: 'center',
-                        maxWidth: '500px',
-                        lineHeight: 1.6,
-                    }}>
-                        {description}
-                    </p>
+                    {/* Skill Content */}
+                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                        <div style={{
+                            width: '56px',
+                            height: '56px',
+                            borderRadius: '16px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backdropFilter: 'blur(10px)',
+                        }}>
+                            {Icon && <Icon className="w-7 h-7" style={{ color: '#ffffff' }} />}
+                        </div>
+                        <h3 style={{
+                            fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
+                            fontWeight: 800,
+                            color: '#ffffff',
+                            lineHeight: 1.2,
+                            letterSpacing: '-0.02em',
+                        }}>
+                            {title}
+                        </h3>
+                        <p style={{
+                            fontSize: 'clamp(0.9rem, 1.5vw, 1.15rem)',
+                            color: 'rgba(255, 255, 255, 0.75)',
+                            lineHeight: 1.6,
+                            maxWidth: '500px',
+                        }}>
+                            {description}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -228,7 +244,6 @@ export const StackedCards: React.FC = () => {
 
     return (
         <div ref={containerRef}>
-            {/* Cards Section */}
             <section style={{
                 color: '#ffffff',
                 width: '100%'
@@ -242,6 +257,7 @@ export const StackedCards: React.FC = () => {
                         index={index}
                         totalCards={cardData.length}
                         color={card.color}
+                        iconName={card.iconName}
                     />
                 ))}
             </section>
