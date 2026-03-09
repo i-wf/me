@@ -56,9 +56,9 @@ export default function ProfileCard({
     >
       <Card className="relative overflow-hidden glass rounded-2xl border-border/30">
         {/* Gradient glow background */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-primary blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-accent blur-3xl" />
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-foreground blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-muted-foreground blur-3xl" />
         </div>
 
         {/* Glow text banner */}
