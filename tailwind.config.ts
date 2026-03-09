@@ -108,6 +108,15 @@ export default {
           "0%": { offsetDistance: "0%" },
           "100%": { offsetDistance: "100%" },
         },
+        "pulse-slow": {
+          "0%, 100%": { transform: "translateX(-100%)" },
+          "50%": { transform: "translateX(100%)" },
+        },
+        shine: {
+          "0%": { transform: "translateX(-100%)" },
+          "50%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -121,6 +130,8 @@ export default {
         shimmer: "shimmer 3s ease-in-out infinite",
         "spin-slow": "spin-slow 20s linear infinite",
         "border-beam": "border-beam 4s linear infinite",
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
+        shine: "shine 3s ease-in-out infinite",
       },
     },
   },
