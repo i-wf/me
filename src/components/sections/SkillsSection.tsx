@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import {
   Code2, Brain, Palette, Cpu, Bot,
   Workflow, Search, GraduationCap,
-  Terminal, Layers, Smartphone, Globe, Sparkles
+  Terminal, Layers, Smartphone, Globe
 } from "lucide-react";
 
 const skills = [
@@ -44,24 +44,29 @@ const SkillsSection = () => (
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
       >
-        <div className="grid place-items-center" style={{ gridTemplateAreas: "'stack'" }}>
+        <div
+          className="relative grid place-items-center"
+          style={{ gridTemplateAreas: "'stack'", minHeight: "180px" }}
+        >
           {skills.map((skill, index) => {
             const Icon = skill.icon;
-            const offset = index * 4;
+            // Small vertical-only offset so cards peek out behind each other
+            const yOffset = index * 3;
+            const xOffset = index * 1.5;
             return (
               <motion.div
                 key={skill.title}
-                className="relative flex w-[22rem] flex-col gap-2 overflow-hidden rounded-xl glass p-5 cursor-default transition-all duration-500"
+                className="relative flex w-[22rem] flex-col gap-2 overflow-hidden rounded-xl glass p-5 cursor-default"
                 style={{
                   gridArea: "stack",
-                  translate: `${offset}px ${offset}px`,
                   zIndex: skills.length - index,
                 }}
+                initial={{ x: xOffset, y: yOffset }}
                 whileHover={{
-                  y: -40,
+                  y: -50,
                   zIndex: 50,
-                  scale: 1.02,
-                  transition: { duration: 0.3, ease: "easeOut" },
+                  scale: 1.03,
+                  transition: { duration: 0.25, ease: "easeOut" },
                 }}
               >
                 <div className="flex items-center gap-2">
