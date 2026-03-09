@@ -13,13 +13,11 @@ import SkillsSection from "@/components/sections/SkillsSection";
 import ArsenalSection from "@/components/sections/ArsenalSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import BusinessCardSection from "@/components/sections/BusinessCardSection";
 import ContactSection from "@/components/sections/ContactSection";
 
 const navItems = [
   { name: "Home", url: "#hero", icon: Home },
   { name: "Skills", url: "#skills", icon: Code },
-  { name: "Business Card", url: "#business-card", icon: Award },
   { name: "Projects", url: "#projects", icon: Briefcase },
   { name: "Contact", url: "#contact", icon: MessageSquare },
 ];
@@ -59,7 +57,6 @@ const Index = () => {
       <AnimeNavBar items={navItems} defaultActive="Home" />
       <HeroSection />
       <SkillsSection />
-      <BusinessCardSection />
       <ArsenalSection />
       <ProjectsSection />
       <TestimonialsSection />

@@ -1,9 +1,31 @@
 import { motion } from "framer-motion";
 import { GraduationCap, Mail } from "lucide-react";
 import { SocialIcons } from "@/components/ui/social-icons";
+import MetallicBusinessCard from "@/components/ui/metallic-business-card";
 
 const ContactSection = () => (
-  <section id="contact" className="relative py-24 px-4">
+  <section id="contact" className="relative py-24 px-4 overflow-hidden">
+    <div className="max-w-4xl mx-auto mb-16">
+      <motion.div
+        className="flex justify-center"
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", stiffness: 100 }}
+      >
+        <MetallicBusinessCard
+          metal="platinum"
+          width={500}
+          name="Saif Medhat"
+          role="Full Stack Creator"
+          company="Chef Studio"
+          email="q@qn.ci"
+          website="chef.pro"
+          align="left"
+        />
+      </motion.div>
+    </div>
+
     <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
       <motion.div
         className="glass rounded-2xl p-8"
