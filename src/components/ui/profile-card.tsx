@@ -93,7 +93,7 @@ export default function ProfileCard({
                 <img
                   src={avatarSrc}
                   alt={name}
-                  className="w-14 h-14 rounded-xl object-cover ring-2 ring-primary/30"
+                  className="w-14 h-14 rounded-xl object-cover ring-2 ring-border"
                 />
               ) : (
                 <div className="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center text-xl font-bold text-gradient">
