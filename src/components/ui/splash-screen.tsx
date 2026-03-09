@@ -39,7 +39,7 @@ export function SplashScreen({ onEnter }: SplashScreenProps) {
               animate={{ opacity: [0.7, 1, 0.7] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              SM
+              Chef
             </motion.h1>
 
             <motion.div
@@ -86,7 +86,7 @@ export function SplashScreen({ onEnter }: SplashScreenProps) {
             animate={{ scale: [1, 1.1] }}
             transition={{ duration: 0.8 }}
           >
-            SM
+            Chef
           </motion.h1>
         </motion.div>
       )}
