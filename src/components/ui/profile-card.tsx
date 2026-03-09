@@ -77,7 +77,7 @@ export default function ProfileCard({
           {/* Status row */}
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <span className={cn("w-2 h-2 rounded-full animate-pulse", statusColor)} />
+              <span className={cn("w-2 h-2 rounded-full animate-pulse bg-neutral-400")} />
               {statusText}
             </span>
             <span className="flex items-center gap-1">
