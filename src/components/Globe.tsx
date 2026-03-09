@@ -19,9 +19,9 @@ export function Globe({ className }: { className?: string }) {
       diffuse: 1.2,
       mapSamples: 16000,
       mapBrightness: 6,
-      baseColor: [0.3, 0.3, 0.3],
-      markerColor: [0.4, 0.3, 0.9],
-      glowColor: [0.3, 0.1, 0.5],
+      baseColor: [0.15, 0.15, 0.15],
+      markerColor: [0.8, 0.8, 0.8],
+      glowColor: [0.2, 0.2, 0.2],
       markers: [
         { location: [37.7595, -122.4367], size: 0.03 },
         { location: [40.7128, -74.006], size: 0.1 },
