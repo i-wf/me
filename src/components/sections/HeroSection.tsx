@@ -53,7 +53,7 @@ const HeroSection = () => (
               transition={{ delay: 0.8, duration: 0.5 }}
             >
               <a
-                href="mailto:q@qn.ci"
+                href="mailto:alo5060700@gmail.com"
                 className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background font-medium hover:bg-foreground/90 transition-all hover:shadow-lg hover:shadow-foreground/10 hover:scale-105 active:scale-95"
               >
                 <Mail className="w-4 h-4 group-hover:rotate-12 transition-transform" /> Contact Me
@@ -76,7 +76,7 @@ const HeroSection = () => (
             <ProfileCard
               name="Saif Medhat"
               role="Full Stack Creator"
-              email="q@qn.ci"
+              email="alo5060700@gmail.com"
               statusText="Available for work"
               glowText="Building the Future at 15"
             />
@@ -128,7 +128,7 @@ const HeroSection = () => (
           <div className="w-px h-8 bg-border/30 hidden sm:block" />
           <div>
             <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Email</p>
-            <a href="mailto:q@qn.ci" className="text-lg font-bold text-foreground hover:underline">q@qn.ci</a>
+            <a href="mailto:alo5060700@gmail.com" className="text-lg font-bold text-foreground hover:underline">alo5060700@gmail.com</a>
           </div>
         </div>
 

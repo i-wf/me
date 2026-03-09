@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Code2, Brain, Palette, Cpu, Bot,
   Workflow, Search, GraduationCap,
-  Terminal, Layers, Smartphone, Globe
+  Terminal, Layers, Smartphone, Globe,
+  ChevronLeft, ChevronRight
 } from "lucide-react";
 
 const skills = [
@@ -23,6 +24,16 @@ const skills = [
 
 const SkillsSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const scrollAmount = 320;
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section id="skills" className="relative py-24 px-4">
@@ -48,48 +59,50 @@ const SkillsSection = () => {
           </p>
         </motion.div>
 
+        {/* Arrow buttons */}
+        <div className="flex justify-center gap-4 mb-6">
+          <button
+            onClick={() => scroll("left")}
+            className="p-3 rounded-xl glass text-foreground hover:bg-secondary/50 transition-all hover:scale-110 active:scale-95"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => scroll("right")}
+            className="p-3 rounded-xl glass text-foreground hover:bg-secondary/50 transition-all hover:scale-110 active:scale-95"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
         <motion.div
-          className="flex justify-center overflow-visible pb-48"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="relative grid [grid-template-areas:'stack'] place-items-center">
+          <div
+            ref={scrollRef}
+            className="flex gap-5 overflow-x-auto pb-6 scroll-smooth"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
+          >
             {skills.map((skill, index) => {
-              const xOffset = index * 16;
-              const yOffset = index * 12;
               const isHovered = hoveredIndex === index;
-              const isLast = index === skills.length - 1;
 
               return (
                 <motion.div
                   key={skill.title}
-                  className="[grid-area:stack] relative flex w-[26rem] flex-col gap-3 overflow-hidden rounded-2xl glass-strong p-6 cursor-default [&>*]:flex [&>*]:items-center [&>*]:gap-2"
-                  style={{
-                    zIndex: isHovered ? 50 : index,
-                  }}
-                  initial={{
-                    x: xOffset,
-                    y: yOffset,
-                    opacity: 0,
-                    scale: 0.9,
-                  }}
-                  animate={{
-                    x: xOffset,
-                    y: isHovered ? yOffset - 60 : yOffset,
-                    opacity: 1,
-                    scale: isHovered ? 1.05 : 1,
-                    filter: isHovered || isLast ? "grayscale(0%) brightness(1.1)" : "grayscale(80%) brightness(0.7)",
-                  }}
-                  transition={{
-                    y: { type: "spring", stiffness: 400, damping: 25 },
-                    scale: { type: "spring", stiffness: 400, damping: 25 },
-                    filter: { duration: 0.3 },
-                    opacity: { delay: index * 0.05, duration: 0.5 },
-                  }}
-                  whileInView={{ opacity: 1, scale: isHovered ? 1.05 : 1 }}
+                  className="relative flex w-[20rem] min-w-[20rem] flex-col gap-3 overflow-hidden rounded-2xl glass-strong p-6 cursor-default [&>*]:flex [&>*]:items-center [&>*]:gap-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
+                  transition={{ delay: index * 0.05, duration: 0.5 }}
+                  animate={{
+                    scale: isHovered ? 1.05 : 1,
+                    filter: isHovered ? "grayscale(0%) brightness(1.1)" : "grayscale(0%) brightness(1)",
+                  }}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >

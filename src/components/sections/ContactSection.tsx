@@ -28,10 +28,10 @@ const ContactSection = () => (
         <Mail className="w-8 h-8 text-foreground mb-4" />
         <h3 className="text-2xl font-bold text-foreground mb-4">Get in Touch</h3>
         <a
-          href="mailto:q@qn.ci"
+          href="mailto:alo5060700@gmail.com"
           className="text-foreground hover:underline text-lg"
         >
-          q@qn.ci
+          alo5060700@gmail.com
         </a>
         <div className="mt-6">
           <SocialIcons />
