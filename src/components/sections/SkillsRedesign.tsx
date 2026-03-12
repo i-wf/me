@@ -1,61 +1,57 @@
 import { Typewriter } from "@/components/ui/typewriter";
-import StackedArticleCards, { type ArticleItem } from "@/components/ui/stacked-article-cards";
+import { SkillsGrid } from "@/components/ui/skills-grid";
 import { Marquee } from "@/components/ui/marquee";
 import { cardData } from "@/lib/utils";
 
-const SKILLS_ITEMS: ArticleItem[] = cardData.map(skill => ({
-    title: skill.title,
-    subTitle: skill.description,
-    url: "#",
-    img: (skill as any).certificateUrl || "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=200&h=200&fit=crop",
-}));
-
 const SkillsRedesign = () => {
     return (
-        <section id="arsenal" className="bg-neutral-950 py-32 border-t border-white/5">
-            <div className="max-w-4xl mx-auto px-6 mb-20">
-                <div className="w-full text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
-                    <span className="text-zinc-600 block mb-2 underline decoration-zinc-800 underline-offset-8">Professional</span>
+        <section id="arsenal" className="bg-neutral-950 py-24 border-t border-white/5 relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-10">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/30 blur-[120px] rounded-full" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/30 blur-[120px] rounded-full" />
+            </div>
+
+            <div className="max-w-4xl mx-auto px-6 mb-16 relative z-10">
+                <div className="w-full text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none">
+                    <span className="text-zinc-700 block text-2xl md:text-4xl mb-2">MY</span>
                     <Typewriter
-                        text={[
-                            "skills",
-                            "work",
-                            "arsenal",
-                            "capabilities",
-                            "create things that make the world a better place",
-                        ]}
-                        speed={70}
+                        text={["SKILLS", "WORK", "LOVE", "HOBBY"]}
+                        speed={100}
                         className="text-white italic"
-                        waitTime={1500}
-                        deleteSpeed={40}
+                        waitTime={2000}
+                        deleteSpeed={60}
                         cursorChar={"_"}
                     />
                 </div>
             </div>
 
-            {/* Tags Marquee */}
-            <div className="py-8 border-y border-white/5 bg-neutral-900/20 backdrop-blur-sm mb-20">
-                <Marquee duration={40} pauseOnHover>
+            {/* Small Discrete Marquee */}
+            <div className="py-4 border-y border-white/5 bg-neutral-900/10 backdrop-blur-md mb-16 relative z-10">
+                <Marquee duration={30} pauseOnHover>
                     {cardData.map((skill, i) => (
-                        <div key={i} className="flex items-center gap-4 mx-12 group">
-                            <span className="text-2xl md:text-4xl font-black text-white/10 group-hover:text-white/40 transition-colors uppercase tracking-tighter italic">
+                        <div key={i} className="flex items-center gap-2 mx-6 group opacity-30 hover:opacity-100 transition-opacity">
+                            <span className="text-[10px] font-black text-white uppercase tracking-widest whitespace-nowrap">
                                 {skill.title}
                             </span>
-                            <div className="w-2 h-2 rounded-full bg-white/5 group-hover:bg-cyan-500 transition-all shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+                            <span className="text-[8px] font-bold text-zinc-600 uppercase tracking-[0.2em] ml-2">
+                                · Saif Medhat ·
+                            </span>
+                            <div className="w-1 h-1 rounded-full bg-white/20" />
                         </div>
                     ))}
                 </Marquee>
             </div>
 
-            {/* Stacked Cards Section */}
-            <div className="relative min-h-[400px] flex flex-col items-center justify-center py-10">
-                <div className="mb-12 text-center">
-                    <p className="text-zinc-500 font-bold uppercase tracking-widest text-[10px]">
-                        Click the stack to expand definitely
+            {/* Main Interactive Grid */}
+            <div className="relative z-10">
+                <div className="max-w-6xl mx-auto px-4 mb-10 text-center md:text-left">
+                    <p className="text-zinc-600 font-bold uppercase tracking-widest text-[10px] ml-4">
+                        Select a capability to view details definitely
                     </p>
                 </div>
 
-                <StackedArticleCards items={SKILLS_ITEMS} />
+                <SkillsGrid items={cardData} />
             </div>
         </section>
     );

@@ -31,29 +31,36 @@ const Index = () => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-purple-500/30 selection:text-white">
+      <div className="noise" />
+
       {!isMobile && <CursorTrail />}
 
       {!isMobile && (
         <FallingPattern
-          color="hsl(0, 0%, 30%)"
+          color="hsl(280, 50%, 30%)"
           backgroundColor="hsl(0, 0%, 4%)"
-          duration={120}
-          blurIntensity="0.5em"
+          duration={150}
+          blurIntensity="0.8em"
         />
       )}
 
-      {/* Ambient glow orbs - Simplified for mobile */}
+      {/* Ambient glow orbs - Lush Glassmorphism Colors */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 rounded-full bg-muted/10 md:bg-muted/20 blur-[80px] md:blur-[120px]"
-          animate={!isMobile ? { x: [0, 50, 0], y: [0, -30, 0], scale: [1, 1.2, 1] } : {}}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-20 -left-20 w-[500px] h-[500px] rounded-full bg-purple-600/10 blur-[140px]"
+          animate={!isMobile ? { x: [0, 100, 0], y: [0, 50, 0], scale: [1, 1.2, 1] } : {}}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-56 md:w-80 h-56 md:h-80 rounded-full bg-muted/10 md:bg-muted/15 blur-[60px] md:blur-[100px]"
-          animate={!isMobile ? { x: [0, -40, 0], y: [0, 40, 0], scale: [1, 0.9, 1] } : {}}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-blue-600/5 blur-[160px]"
+          animate={!isMobile ? { scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] } : {}}
+          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-20 -right-20 w-[500px] h-[500px] rounded-full bg-emerald-600/10 blur-[140px]"
+          animate={!isMobile ? { x: [0, -100, 0], y: [0, -50, 0], scale: [1, 0.9, 1] } : {}}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
