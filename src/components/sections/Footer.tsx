@@ -39,12 +39,12 @@ function HoverFooter() {
 
     const contactInfo = [
         {
-            icon: <Mail size={18} className="text-[#3ca2fa]" />,
+            icon: <Mail size={18} className="text-violet-400" />,
             text: "q@qn.ci",
             href: "mailto:q@qn.ci",
         },
         {
-            icon: <MapPin size={18} className="text-[#3ca2fa]" />,
+            icon: <MapPin size={18} className="text-violet-400" />,
             text: "Based In UAE",
         },
     ];
@@ -63,7 +63,7 @@ function HoverFooter() {
                     {/* Brand section */}
                     <div className="flex flex-col space-y-4">
                         <div className="flex items-center space-x-2">
-                            <span className="text-[#3ca2fa] text-3xl font-extrabold rotate-12">
+                            <span className="text-violet-500 text-3xl font-extrabold rotate-12">
                                 &hearts;
                             </span>
                             <span className="text-white text-3xl font-black uppercase tracking-tighter italic">Saif</span>
@@ -84,12 +84,12 @@ function HoverFooter() {
                                     <li key={link.label} className="relative group w-fit">
                                         <a
                                             href={link.href}
-                                            className="text-zinc-400 group-hover:text-[#3ca2fa] transition-colors font-medium text-sm"
+                                            className="text-zinc-400 group-hover:text-violet-400 transition-colors font-medium text-sm"
                                         >
                                             {link.label}
                                         </a>
                                         {link.pulse && (
-                                            <span className="absolute -top-1 -right-4 w-2 h-2 rounded-full bg-[#3ca2fa] animate-pulse shadow-[0_0_8px_#3ca2fa]"></span>
+                                            <span className="absolute -top-1 -right-4 w-2 h-2 rounded-full bg-violet-500 animate-pulse shadow-[0_0_8px_#8b5cf6]"></span>
                                         )}
                                     </li>
                                 ))}
@@ -105,13 +105,13 @@ function HoverFooter() {
                         <ul className="space-y-4">
                             {contactInfo.map((item, i) => (
                                 <li key={i} className="flex items-center space-x-3 group">
-                                    <div className="p-2 rounded-lg bg-white/5 border border-white/5 group-hover:border-[#3ca2fa]/30 transition-colors">
+                                    <div className="p-2 rounded-lg bg-white/5 border border-white/5 group-hover:border-violet-500/30 transition-colors">
                                         {item.icon}
                                     </div>
                                     {item.href ? (
                                         <a
                                             href={item.href}
-                                            className="text-zinc-400 hover:text-[#3ca2fa] transition-colors font-medium text-sm"
+                                            className="text-zinc-400 hover:text-violet-400 transition-colors font-medium text-sm"
                                         >
                                             {item.text}
                                         </a>
