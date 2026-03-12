@@ -12,13 +12,13 @@ import HeroSection from "@/components/sections/HeroSection";
 import SkillsRedesign from "@/components/sections/SkillsRedesign";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import ContactSection from "@/components/sections/ContactSection";
+import Footer from "@/components/sections/Footer";
 
 const navItems = [
   { name: "Home", url: "#hero", icon: Home },
-  { name: "Arsenal", url: "#skills-redesign", icon: Code },
+  { name: "Arsenal", url: "#arsenal", icon: Code },
   { name: "Projects", url: "#projects", icon: Briefcase },
-  { name: "Contact", url: "#contact", icon: MessageSquare },
+  { name: "Connect", url: "#contact", icon: MessageSquare },
 ];
 
 const Index = () => {
@@ -70,17 +70,10 @@ const Index = () => {
         <SkillsRedesign />
         <ProjectsSection />
         <TestimonialsSection />
-        <ContactSection />
-      </div>
-
-      {/* Footer */}
-      <footer className="relative py-8 px-4 border-t border-border/20">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="text-sm text-muted-foreground">
-            Built with passion by <span className="text-gradient font-semibold">Saif Medhat</span> · © 2026
-          </p>
+        <div id="contact">
+          <Footer />
         </div>
-      </footer>
+      </div>
     </div>
   );
 };

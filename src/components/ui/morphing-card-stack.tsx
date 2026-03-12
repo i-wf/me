@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type ReactNode, useRef } from "react"
+import { useState, type ReactNode } from "react"
 import { motion, AnimatePresence, LayoutGroup, type PanInfo } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Grid3X3, Layers, LayoutList, ExternalLink, X, Eye } from "lucide-react"
@@ -42,7 +42,6 @@ export function MorphingCardStack({
     const [selectedCard, setSelectedCard] = useState<CardData | null>(null)
     const [activeIndex, setActiveIndex] = useState(0)
     const [isDragging, setIsDragging] = useState(false)
-    const [showCert, setShowCert] = useState<string | null>(null)
 
     if (!cards || cards.length === 0) {
         return null
@@ -90,21 +89,23 @@ export function MorphingCardStack({
     }
 
     const containerStyles = {
-        stack: "relative h-72 w-72",
-        grid: "grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6",
-        list: "flex flex-col gap-4",
+        stack: "relative h-[450px] w-full max-w-[320px]",
+        grid: "grid grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 max-w-4xl",
+        list: "flex flex-col gap-4 max-w-2xl",
     }
 
     const displayCards = layout === "stack" ? getStackOrder() : cards.map((c, i) => ({ ...c, stackPosition: i }))
 
     return (
-        <div className={cn("space-y-8", className)}>
+        <div className={cn("space-y-12 flex flex-col items-center justify-center w-full px-4", className)}>
             {/* Layout Toggle / Tooltip */}
-            <div className="flex flex-col items-center gap-4">
-                <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] animate-pulse">
-                    {layout === 'stack' ? 'Drag to explore · Click to expand' : 'Select a skill for details'}
-                </span>
-                <div className="flex items-center justify-center gap-1 rounded-full bg-white/5 border border-white/10 p-1 backdrop-blur-xl">
+            <div className="flex flex-col items-center gap-6 z-20">
+                <div className="text-center space-y-2">
+                    <span className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] animate-pulse block">
+                        {layout === 'stack' ? 'Drag with your hands · Force to expand' : 'Direct interaction layer'}
+                    </span>
+                </div>
+                <div className="flex items-center justify-center gap-1 rounded-full bg-white/5 border border-white/10 p-1.5 backdrop-blur-2xl shadow-2xl">
                     {(Object.keys(layoutIcons) as LayoutMode[]).map((mode) => {
                         const Icon = layoutIcons[mode]
                         return (
@@ -112,13 +113,14 @@ export function MorphingCardStack({
                                 key={mode}
                                 onClick={() => setLayout(mode)}
                                 className={cn(
-                                    "rounded-full p-2.5 transition-all duration-300",
+                                    "rounded-full px-4 py-2 transition-all duration-500 flex items-center gap-2",
                                     layout === mode
-                                        ? "bg-white text-black shadow-lg shadow-white/20"
-                                        : "text-zinc-500 hover:text-white hover:bg-white/10",
+                                        ? "bg-white text-black shadow-lg shadow-white/10"
+                                        : "text-zinc-500 hover:text-white hover:bg-white/5",
                                 )}
                             >
                                 <Icon className="h-4 w-4" />
+                                <span className="text-[10px] font-black uppercase tracking-widest">{mode}</span>
                             </button>
                         )
                     })}
@@ -127,7 +129,7 @@ export function MorphingCardStack({
 
             {/* Cards Container */}
             <LayoutGroup>
-                <motion.div layout className={cn(containerStyles[layout], "mx-auto px-4")}>
+                <motion.div layout className={cn(containerStyles[layout], "mx-auto relative")}>
                     <AnimatePresence mode="popLayout">
                         {displayCards.map((card) => {
                             const styles = getLayoutStyles(card.stackPosition)
@@ -148,15 +150,15 @@ export function MorphingCardStack({
                                     exit={{ opacity: 0, scale: 0.8, x: -200 }}
                                     transition={{
                                         type: "spring",
-                                        stiffness: 400,
-                                        damping: 30,
+                                        stiffness: 450,
+                                        damping: 35,
                                     }}
                                     drag={isTopCard ? "x" : false}
                                     dragConstraints={{ left: 0, right: 0 }}
-                                    dragElastic={0.9}
+                                    dragElastic={1}
                                     onDragStart={() => setIsDragging(true)}
                                     onDragEnd={handleDragEnd}
-                                    whileDrag={{ scale: 1.05, cursor: "grabbing" }}
+                                    whileDrag={{ scale: 1.05, cursor: "grabbing", zIndex: 100 }}
                                     onClick={() => {
                                         if (isDragging) return
                                         if (layout === 'stack') {
@@ -167,36 +169,29 @@ export function MorphingCardStack({
                                         onCardClick?.(card)
                                     }}
                                     className={cn(
-                                        "relative cursor-pointer rounded-[24px] border border-white/5 bg-zinc-900/40 p-6 flex flex-col items-center justify-center transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/60 shadow-2xl backdrop-blur-3xl",
-                                        layout === "stack" && "absolute w-64 h-64",
-                                        layout === "stack" && isTopCard && "cursor-grab active:cursor-grabbing hover:scale-105",
-                                        layout === "grid" && "aspect-square w-full",
+                                        "relative cursor-pointer rounded-[32px] border border-white/5 bg-zinc-900/60 p-8 flex flex-col items-center justify-center transition-all duration-500 hover:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-3xl group overflow-hidden",
+                                        layout === "stack" && "absolute w-full h-[350px] left-0 md:left-auto",
+                                        layout === "grid" && "aspect-[3/2] w-full",
                                         layout === "list" && "w-full h-32",
-                                        isSelected && "ring-2 ring-white/50 border-white/40",
+                                        isSelected && "ring-2 ring-white/40 border-white/40 bg-zinc-800/80",
                                     )}
                                 >
-                                    {/* Skill Glow */}
                                     <div
-                                        className="absolute inset-0 opacity-10 rounded-[inherit] pointer-events-none"
-                                        style={{ background: `radial-gradient(circle at center, ${card.color || '#fff'} 0%, transparent 70%)` }}
+                                        className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700"
+                                        style={{ background: `radial-gradient(100% 100% at 50% 0%, ${card.color || '#fff'}15 0%, transparent 100%)` }}
                                     />
 
-                                    <div className="relative z-10 flex flex-col items-center gap-4 text-center">
-                                        <div className="p-4 rounded-2xl bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                                    <div className="relative z-10 flex flex-col items-center gap-6 text-center">
+                                        <div className="p-5 rounded-[24px] bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                                             {card.icon}
                                         </div>
-                                        <div>
-                                            <h3 className="font-black text-white text-xs md:text-sm uppercase tracking-tighter leading-none mb-1">{card.title}</h3>
-                                            <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-widest">{isSelected ? 'Active Selection' : ''}</p>
+                                        <div className="space-y-1">
+                                            <h3 className="font-black text-white text-xs md:text-sm uppercase tracking-tighter italic leading-none">{card.title}</h3>
+                                            <p className="text-[8px] text-[#3ca2fa] font-black uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                {isSelected ? 'Selected' : 'Tap to reveal'}
+                                            </p>
                                         </div>
                                     </div>
-
-                                    {/* Top Card indicator */}
-                                    {isTopCard && !isSelected && (
-                                        <div className="absolute bottom-4 left-0 right-0 text-center">
-                                            <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest animate-bounce">Swipe or Tap</span>
-                                        </div>
-                                    )}
                                 </motion.div>
                             )
                         })}
@@ -204,57 +199,76 @@ export function MorphingCardStack({
                 </motion.div>
             </LayoutGroup>
 
-            {/* Pop-up Details */}
+            {/* Pop-up Details - RECTANGLE VIEW DESCRIPTION */}
             <AnimatePresence>
                 {selectedCard && layout !== 'stack' && (
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="max-w-md mx-auto p-6 rounded-3xl bg-zinc-900/80 backdrop-blur-3xl border border-white/20 shadow-[0_30px_100px_rgba(0,0,0,0.5)] relative z-50 text-center"
+                        initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 30 }}
+                        className="w-full max-w-2xl px-4 relative z-50 mt-10"
                     >
-                        <button onClick={() => setSelectedCard(null)} className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors">
-                            <X className="h-4 w-4" />
-                        </button>
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                                {selectedCard.icon}
+                        <div className="p-8 rounded-[48px] bg-zinc-950/80 border border-white/10 backdrop-blur-[40px] shadow-[0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden">
+                            <div className="noise opacity-10 absolute inset-0 pointer-events-none" />
+
+                            <button onClick={() => setSelectedCard(null)} className="absolute top-8 right-8 text-zinc-600 hover:text-white transition-all transform hover:rotate-90">
+                                <X className="h-6 w-6" />
+                            </button>
+
+                            <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+                                <div className="size-24 shrink-0 rounded-[32px] bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl relative overflow-hidden">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                                    {selectedCard.icon}
+                                </div>
+
+                                <div className="flex-1 space-y-6 text-center md:text-left">
+                                    <div>
+                                        <h4 className="text-3xl font-black text-white uppercase tracking-tighter italic mb-3">
+                                            {selectedCard.title}
+                                        </h4>
+                                        <div className="h-1 w-12 bg-[#3ca2fa] rounded-full mx-auto md:mx-0 shadow-[0_0_15px_#3ca2fa]" />
+                                    </div>
+
+                                    <p className="text-sm md:text-base text-zinc-400 font-medium leading-relaxed italic">
+                                        {selectedCard.description}
+                                    </p>
+
+                                    <div className="pt-4 flex flex-wrap gap-4 justify-center md:justify-start">
+                                        {selectedCard.certificateUrl && (
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <button className="flex items-center gap-3 px-8 py-4 rounded-[20px] bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] hover:scale-105 transition-all active:scale-95 shadow-xl shadow-white/5 ring-1 ring-white/20">
+                                                        <Eye className="h-4 w-4" /> The Certificate Pop-up
+                                                    </button>
+                                                </DialogTrigger>
+                                                <DialogContent className="bg-black/90 border-white/10 backdrop-blur-3xl p-3 rounded-[40px] max-w-3xl overflow-hidden focus:outline-none">
+                                                    <DialogHeader className="sr-only">
+                                                        <DialogTitle>{selectedCard.title} Credential</DialogTitle>
+                                                    </DialogHeader>
+                                                    <div className="relative aspect-[16/10] rounded-[32px] overflow-hidden group">
+                                                        <div className="noise opacity-20 absolute inset-0 z-10 pointer-events-none" />
+                                                        <img
+                                                            src={selectedCard.certificateUrl}
+                                                            alt="Certificate Credential"
+                                                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+                                                        <div className="absolute bottom-8 left-8 flex items-center gap-4">
+                                                            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
+                                                                <ExternalLink className="h-5 w-5 text-white" />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[12px] font-black text-white uppercase tracking-[0.3em]">Official Credential</p>
+                                                                <p className="text-[10px] font-bold text-[#3ca2fa] uppercase tracking-[0.2em]">{selectedCard.title}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </DialogContent>
+                                            </Dialog>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <h4 className="text-lg font-black text-white uppercase tracking-tighter italic">{selectedCard.title}</h4>
-                                <p className="text-xs text-zinc-400 font-medium leading-relaxed italic line-clamp-3">
-                                    "{selectedCard.description}"
-                                </p>
-                            </div>
-                            {selectedCard.certificateUrl && (
-                                <Dialog>
-                                    <DialogTrigger asChild>
-                                        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-white text-black text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 shadow-xl shadow-white/5">
-                                            <Eye className="h-3 w-3" /> View Credential
-                                        </button>
-                                    </DialogTrigger>
-                                    <DialogContent className="bg-zinc-950/90 border-white/10 backdrop-blur-2xl p-2 rounded-[32px] max-w-2xl overflow-hidden">
-                                        <DialogHeader className="p-4 sr-only">
-                                            <DialogTitle>{selectedCard.title} Certificate</DialogTitle>
-                                        </DialogHeader>
-                                        <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden group">
-                                            <div className="noise opacity-20 absolute inset-0 z-10 pointer-events-none" />
-                                            <img
-                                                src={selectedCard.certificateUrl}
-                                                alt="Certificate"
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent pointer-events-none" />
-                                            <div className="absolute bottom-6 left-6 flex items-center gap-3">
-                                                <div className="p-2 rounded-lg bg-white/10 backdrop-blur-md border border-white/20">
-                                                    <ExternalLink className="h-4 w-4 text-white" />
-                                                </div>
-                                                <p className="text-[10px] font-black text-white uppercase tracking-widest">Verified Certification · {selectedCard.title}</p>
-                                            </div>
-                                        </div>
-                                    </DialogContent>
-                                </Dialog>
-                            )}
                         </div>
                     </motion.div>
                 )}
