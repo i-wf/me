@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,14 @@ export default function ProfileCard({
   className,
 }: ProfileCardProps) {
   const [copied, setCopied] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const timeText = useMemo(() => {
     const now = new Date();
@@ -44,44 +52,38 @@ export default function ProfileCard({
       await navigator.clipboard.writeText(email);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch {}
+    } catch { }
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className={cn("w-full max-w-sm", className)}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "circOut" }}
+      className={cn("w-full transition-all duration-500", className)}
     >
-      <Card className="relative overflow-hidden glass rounded-2xl border-border/30">
-        {/* Gradient glow background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-foreground blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-muted-foreground blur-3xl" />
-        </div>
-
-        {/* Glow text banner */}
-        <div className="relative px-4 py-2 border-b border-border/20">
+      <Card className="relative overflow-hidden glass rounded-2xl border-border/30 shadow-2xl backdrop-blur-3xl">
+        {/* Glow text banner - Optimized for mobile */}
+        <div className="relative px-3 py-1.5 md:px-4 md:py-2 border-b border-border/10 bg-white/5">
           <motion.p
-            className="text-xs text-center text-muted-foreground flex items-center justify-center gap-1.5"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 3, repeat: Infinity }}
+            className="text-[10px] md:text-xs text-center text-muted-foreground flex items-center justify-center gap-1.5 font-medium tracking-tight"
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 4, repeat: Infinity }}
           >
-            <Zap className="w-3 h-3 text-foreground" />
+            <Zap className="w-2.5 h-2.5 text-foreground" />
             {glowText}
           </motion.p>
         </div>
 
-        <CardContent className="relative p-5 space-y-4">
+        <CardContent className="relative p-4 md:p-5 space-y-3 md:space-y-4">
           {/* Status row */}
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-[10px] md:text-xs text-muted-foreground/80">
             <span className="flex items-center gap-1.5">
-              <span className={cn("w-2 h-2 rounded-full animate-pulse bg-neutral-400")} />
+              <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse bg-green-400")} />
               {statusText}
             </span>
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
+            <span className="flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded-full">
+              <Clock className="w-2.5 h-2.5" />
               {timeText}
             </span>
           </div>
@@ -93,23 +95,23 @@ export default function ProfileCard({
                 <img
                   src={avatarSrc}
                   alt={name}
-                  className="w-14 h-14 rounded-xl object-cover ring-2 ring-border"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl object-cover ring-1 ring-white/10"
                 />
               ) : (
-                <div className="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center text-xl font-bold text-gradient">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 flex items-center justify-center text-lg md:text-xl font-black text-gradient border border-white/10">
                   {name.charAt(0)}
                 </div>
               )}
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-foreground">{name}</h3>
-              <p className="text-sm text-muted-foreground">{role}</p>
+              <h3 className="text-base md:text-lg font-bold text-foreground tracking-tight leading-none mb-1">{name}</h3>
+              <p className="text-xs md:text-sm text-muted-foreground font-medium opacity-70 leading-none">{role}</p>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2">
-            <Button size="sm" className="flex-1 gap-1.5 rounded-xl">
+          <div className="flex gap-2 pt-1">
+            <Button size="sm" className="flex-1 gap-1.5 rounded-xl h-9 md:h-10 text-xs md:text-sm font-bold bg-white text-black hover:bg-white/90">
               <Plus className="w-3.5 h-3.5" />
               Hire Me
             </Button>
@@ -117,7 +119,7 @@ export default function ProfileCard({
               size="sm"
               variant="secondary"
               onClick={handleCopy}
-              className="flex-1 gap-1.5 rounded-xl"
+              className="flex-1 gap-1.5 rounded-xl h-9 md:h-10 text-xs md:text-sm font-bold glass-card border-white/5"
             >
               <Copy className="w-3.5 h-3.5" />
               {copied ? "Copied" : "Copy Email"}

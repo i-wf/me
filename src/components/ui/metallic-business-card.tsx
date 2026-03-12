@@ -84,7 +84,7 @@ export default function MetallicBusinessCard({
     logoAlt = 'Logo',
 
     metal = 'telda',
-    width = 420,
+    width: initialWidth = 420,
     radius = 16,
     maxRotation = 40,
     influenceRadius = 500,
@@ -98,6 +98,16 @@ export default function MetallicBusinessCard({
 }: MetallicBusinessCardProps) {
     const wrapRef = useRef<HTMLDivElement | null>(null);
     const cardRef = useRef<HTMLDivElement | null>(null);
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const width = isMobile ? Math.min(window.innerWidth - 60, 320) : initialWidth;
 
     const ids = useMemo(() => {
         const k = Math.random().toString(36).slice(2, 8);
@@ -123,6 +133,7 @@ export default function MetallicBusinessCard({
     };
 
     const tick = () => {
+        if (isMobile) return; // Skip complex calculations on mobile
         const t = ease;
         current.current.angle = lerp(current.current.angle, target.current.angle, t);
         current.current.x = lerp(current.current.x, target.current.x, t);
@@ -134,11 +145,23 @@ export default function MetallicBusinessCard({
     };
 
     useEffect(() => {
+        if (isMobile) {
+            // Apply default static variables on mobile
+            const host = wrapRef.current;
+            if (host) {
+                host.style.setProperty('--gradient-rotation', '0deg');
+                host.style.setProperty('--rotate-x', '0deg');
+                host.style.setProperty('--rotate-y', '0deg');
+                host.style.setProperty('--gradient-position-x', '50%');
+                host.style.setProperty('--gradient-position-y', '50%');
+            }
+            return;
+        }
         rafRef.current = requestAnimationFrame(tick);
         return () => {
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
         };
-    }, [ease]);
+    }, [ease, isMobile]);
 
     const resetTargets = () => {
         target.current = { angle: 0, x: 0, y: 0 };
@@ -146,6 +169,7 @@ export default function MetallicBusinessCard({
     };
 
     const handlePointer = (e: React.PointerEvent) => {
+        if (isMobile) return;
         const card = cardRef.current;
         if (!card) return;
         const rect = card.getBoundingClientRect();
@@ -192,7 +216,7 @@ export default function MetallicBusinessCard({
                 {
                     '--bg-card': METAL_BG[metal],
                     '--border-radius': `${radius}px`,
-                    '--noise-filter': `url(#${ids.noise})`,
+                    '--noise-filter': isMobile ? 'none' : `url(#${ids.noise})`,
                     '--ink': ink.ink,
                     '--ink-sub': ink.sub,
                     '--glow-1': ink.glow1,
