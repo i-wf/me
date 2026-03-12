@@ -151,39 +151,45 @@ export function CardStack<T extends CardStackItem>({
               const abs = Math.abs(off);
               if (abs > maxOffset) return null;
 
-              const rotateZ = off * stepDeg;
+              const isMobileLocal = typeof window !== 'undefined' && window.innerWidth < 768;
+              const rotateZ = off * (isMobileLocal ? spreadDeg * 0.5 : stepDeg);
               const x = off * cardSpacing;
               const y = abs * 10;
-              const z = -abs * depthPx;
+              const z = isMobileLocal ? 0 : -abs * depthPx;
               const isActive = off === 0;
               const scale = isActive ? activeScale : inactiveScale;
               const lift = isActive ? -activeLiftPx : 0;
-              const rotateX = isActive ? 0 : tiltXDeg;
+              const rotateX = isActive || isMobileLocal ? 0 : tiltXDeg;
               const zIndex = 100 - abs;
 
               const dragProps = isActive
                 ? {
-                    drag: "x" as const,
-                    dragConstraints: { left: 0, right: 0 },
-                    dragElastic: 0.18,
-                    onDragEnd: (
-                      _e: any,
-                      info: { offset: { x: number }; velocity: { x: number } }
-                    ) => {
-                      const travel = info.offset.x;
-                      const v = info.velocity.x;
-                      const threshold = Math.min(160, cardWidth * 0.22);
-                      if (travel > threshold || v > 650) prev();
-                      else if (travel < -threshold || v < -650) next();
-                    },
-                  }
+                  drag: "x" as const,
+                  dragConstraints: { left: 0, right: 0 },
+                  dragElastic: 0.18,
+                  onDragEnd: (
+                    _e: any,
+                    info: { offset: { x: number }; velocity: { x: number } }
+                  ) => {
+                    const travel = info.offset.x;
+                    const v = info.velocity.x;
+                    const threshold = Math.min(160, cardWidth * 0.22);
+                    if (travel > threshold || v > 650) prev();
+                    else if (travel < -threshold || v < -650) next();
+                  },
+                }
                 : {};
 
               return (
                 <motion.div
                   key={item.id}
                   className="absolute cursor-pointer select-none"
-                  style={{ width: cardWidth, height: cardHeight, zIndex }}
+                  style={{
+                    width: cardWidth,
+                    height: cardHeight,
+                    zIndex,
+                    willChange: 'transform, opacity'
+                  }}
                   initial={false}
                   animate={{
                     x,
@@ -196,13 +202,13 @@ export function CardStack<T extends CardStackItem>({
                   }}
                   transition={{
                     type: "spring",
-                    stiffness: springStiffness,
-                    damping: springDamping,
+                    stiffness: isMobileLocal ? 350 : springStiffness, // Snappier on mobile
+                    damping: isMobileLocal ? 35 : springDamping,
                   }}
                   onClick={() => setActive(i)}
                   {...dragProps}
                 >
-                  <div className="w-full h-full rounded-2xl overflow-hidden glass border-border/20">
+                  <div className="w-full h-full rounded-2xl overflow-hidden glass border-border/20 shadow-xl">
                     {renderCard ? (
                       renderCard(item, { active: isActive })
                     ) : (

@@ -47,18 +47,21 @@ const ProjectsSection = () => (
       </motion.div>
 
       <motion.div
-        className="flex justify-center"
+        className="flex justify-center items-center overflow-hidden py-10"
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
       >
-        <CardStack
-          items={projectItems}
-          autoAdvance
-          intervalMs={3500}
-          cardWidth={480}
-          cardHeight={300}
-        />
+        <div className="w-full max-w-[90vw] md:max-w-none flex justify-center">
+          <CardStack
+            items={projectItems}
+            autoAdvance
+            intervalMs={4000}
+            // Use responsive sizing
+            cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 40, 340) : 480}
+            cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 240 : 300}
+          />
+        </div>
       </motion.div>
     </div>
   </section>

@@ -32,13 +32,24 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
     const containerRef = useRef<HTMLDivElement>(null);
     const Icon = iconMap[iconName];
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     useEffect(() => {
         const card = cardRef.current;
         const container = containerRef.current;
         if (!card || !container) return;
 
-        const targetScale = 1 - (totalCards - index) * 0.05;
+        // Skip complex animations on mobile if performance is an issue
+        const targetScale = 1 - (totalCards - index) * (isMobile ? 0.03 : 0.05);
 
         gsap.set(card, {
             scale: 1,
@@ -49,10 +60,11 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
             trigger: container,
             start: "top center",
             end: "bottom center",
-            scrub: 1,
+            scrub: isMobile ? 0.5 : 1, // Faster scrub for mobile performance
             onUpdate: (self) => {
-                const progress = self.progress;
-                const scale = gsap.utils.interpolate(1, targetScale, progress);
+                const { progress } = self;
+                const { interpolate } = gsap.utils;
+                const scale = interpolate(1, targetScale, progress);
 
                 gsap.set(card, {
                     scale: Math.max(scale, targetScale),
@@ -64,13 +76,13 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
         return () => {
             trigger.kill();
         };
-    }, [index, totalCards]);
+    }, [index, totalCards, isMobile]);
 
     return (
         <div
             ref={containerRef}
             style={{
-                height: '70vh',
+                height: isMobile ? '60vh' : '70vh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -82,23 +94,23 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                 ref={cardRef}
                 style={{
                     position: 'relative',
-                    width: '70%',
-                    height: '480px',
+                    width: isMobile ? '92%' : '70%',
+                    height: isMobile ? '380px' : '480px',
                     borderRadius: '24px',
                     isolation: 'isolate',
-                    top: `calc(-5vh + ${index * 25}px)`,
+                    top: `calc(-5vh + ${index * (isMobile ? 15 : 25)}px)`,
                     transformOrigin: 'top'
                 }}
                 className="card-content"
             >
-                {/* Electric Border Effect */}
+                {/* Electric Border Effect - Simplified for mobile */}
                 <div
                     style={{
                         position: 'absolute',
-                        inset: '-3px',
-                        borderRadius: '27px',
-                        padding: '3px',
-                        background: `conic-gradient(
+                        inset: '-2px',
+                        borderRadius: '26px',
+                        padding: '2px',
+                        background: isMobile ? color : `conic-gradient(
                             from 0deg,
                             transparent 0deg,
                             ${color} 60deg,
@@ -107,7 +119,8 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                             ${color.replace('0.8', '0.4')} 240deg,
                             transparent 360deg
                         )`,
-                        zIndex: -1
+                        zIndex: -1,
+                        opacity: isMobile ? 0.5 : 1
                     }}
                 />
 
@@ -121,16 +134,15 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     justifyContent: 'center',
                     borderRadius: '24px',
                     background: 'rgba(255, 254, 250, 0.12)', // Light cream glass
-                    backdropFilter: 'blur(35px) saturate(160%)',
+                    backdropFilter: isMobile ? 'blur(20px)' : 'blur(35px) saturate(160%)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
-                    boxShadow: `
-                        0 12px 48px rgba(0, 0, 0, 0.12),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.4)
-                    `,
+                    boxShadow: isMobile
+                        ? `0 8px 32px rgba(0, 0, 0, 0.1)`
+                        : `0 12px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4)`,
                     overflow: 'hidden',
-                    padding: '3.5rem',
+                    padding: isMobile ? '1.5rem' : '3.5rem',
                 }}>
-                    {/* Smoothed Glass reflection overlay - extended to 100% height to avoid line */}
+                    {/* Smoothed Glass reflection overlay */}
                     <div style={{
                         position: 'absolute',
                         top: 0,
@@ -142,11 +154,11 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     }} />
 
                     {/* Skill Content */}
-                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: isMobile ? '0.8rem' : '1.2rem' }}>
                         <div style={{
-                            width: '64px',
-                            height: '64px',
-                            borderRadius: '18px',
+                            width: isMobile ? '48px' : '64px',
+                            height: isMobile ? '48px' : '64px',
+                            borderRadius: '14px',
                             backgroundColor: 'rgba(255, 255, 255, 0.2)',
                             display: 'flex',
                             alignItems: 'center',
@@ -154,26 +166,26 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                             backdropFilter: 'blur(10px)',
                             border: '1px solid rgba(255, 255, 255, 0.3)',
                         }}>
-                            {Icon && <Icon className="w-8 h-8" style={{ color: '#1a1a1a' }} />}
+                            {Icon && <Icon className={isMobile ? "w-6 h-6" : "w-8 h-8"} style={{ color: '#1a1a1a' }} />}
                         </div>
                         <h3 style={{
-                            fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
+                            fontSize: isMobile ? '1.75rem' : 'clamp(2.2rem, 4vw, 3.2rem)',
                             fontWeight: 900,
                             color: '#1a1a1a',
-                            lineHeight: 1.05,
+                            lineHeight: 1.1,
                             letterSpacing: '-0.04em',
                             margin: 0
                         }}>
                             {title}
                         </h3>
                         <p style={{
-                            fontSize: 'clamp(0.95rem, 1.6vw, 1.15rem)',
+                            fontSize: isMobile ? '0.9rem' : 'clamp(0.95rem, 1.6vw, 1.15rem)',
                             color: 'rgba(0, 0, 0, 0.8)',
-                            lineHeight: 1.5,
+                            lineHeight: 1.4,
                             maxWidth: '600px',
                             fontWeight: 600,
                             margin: 0,
-                            textShadow: '0 1px 2px rgba(255,255,255,0.2)' // Add slight lift for readability
+                            textShadow: '0 1px 2px rgba(255,255,255,0.2)'
                         }}>
                             {description}
                         </p>

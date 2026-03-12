@@ -43,13 +43,13 @@ const ArsenalSection = () => (
             </motion.div>
             <h3 className="text-2xl font-bold text-foreground mb-2">AI & Machine Learning</h3>
             <p className="text-muted-foreground max-w-md">
-              Building intelligent systems, training models, and creating AI-powered applications 
+              Building intelligent systems, training models, and creating AI-powered applications
               that solve real-world problems.
             </p>
           </div>
 
-          {/* Full Globe */}
-          <div className="absolute bottom-[-30px] right-[-30px] w-[340px] h-[340px] md:w-[400px] md:h-[400px] opacity-50 group-hover:opacity-80 transition-all duration-700 group-hover:scale-110">
+          {/* Full Globe - Hidden on mobile for performance */}
+          <div className="absolute bottom-[-30px] right-[-30px] w-full h-[300px] md:h-full opacity-50 group-hover:opacity-80 transition-all duration-700 group-hover:scale-110 hidden md:block">
             <Globe className="w-full h-full" />
           </div>
 

@@ -29,38 +29,44 @@ const Index = () => {
     return <SplashScreen onEnter={() => setEntered(true)} />;
   }
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
-      <CursorTrail />
+      {!isMobile && <CursorTrail />}
 
-      <FallingPattern
-        color="hsl(0, 0%, 30%)"
-        backgroundColor="hsl(0, 0%, 4%)"
-        duration={120}
-        blurIntensity="0.5em"
-      />
+      {!isMobile && (
+        <FallingPattern
+          color="hsl(0, 0%, 30%)"
+          backgroundColor="hsl(0, 0%, 4%)"
+          duration={120}
+          blurIntensity="0.5em"
+        />
+      )}
 
-      {/* Ambient glow orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      {/* Ambient glow orbs - Simplified for mobile */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-muted/20 blur-[120px]"
-          animate={{ x: [0, 50, 0], y: [0, -30, 0], scale: [1, 1.2, 1] }}
+          className="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 rounded-full bg-muted/10 md:bg-muted/20 blur-[80px] md:blur-[120px]"
+          animate={!isMobile ? { x: [0, 50, 0], y: [0, -30, 0], scale: [1, 1.2, 1] } : {}}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-muted/15 blur-[100px]"
-          animate={{ x: [0, -40, 0], y: [0, 40, 0], scale: [1, 0.9, 1] }}
+          className="absolute bottom-1/4 right-1/4 w-56 md:w-80 h-56 md:h-80 rounded-full bg-muted/10 md:bg-muted/15 blur-[60px] md:blur-[100px]"
+          animate={!isMobile ? { x: [0, -40, 0], y: [0, 40, 0], scale: [1, 0.9, 1] } : {}}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      <AnimeNavBar items={navItems} defaultActive="Home" />
-      <HeroSection />
-      <SkillsSection />
-      <ArsenalSection />
-      <ProjectsSection />
-      <TestimonialsSection />
-      <ContactSection />
+      <div className="relative z-10">
+        <AnimeNavBar items={navItems} defaultActive="Home" />
+        <HeroSection />
+        <SkillsSection />
+        <ArsenalSection />
+        <ProjectsSection />
+        <TestimonialsSection />
+        <ContactSection />
+      </div>
 
       {/* Footer */}
       <footer className="relative py-8 px-4 border-t border-border/20">
