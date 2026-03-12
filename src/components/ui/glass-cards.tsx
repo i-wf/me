@@ -44,12 +44,13 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
     }, []);
 
     useEffect(() => {
+        if (isMobile) return; // Disable all scroll animations on mobile for maximum speed
+
         const card = cardRef.current;
         const container = containerRef.current;
         if (!card || !container) return;
 
-        // Skip complex animations on mobile if performance is an issue
-        const targetScale = 1 - (totalCards - index) * (isMobile ? 0.03 : 0.05);
+        const targetScale = 1 - (totalCards - index) * 0.05;
 
         gsap.set(card, {
             scale: 1,
@@ -60,7 +61,7 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
             trigger: container,
             start: "top center",
             end: "bottom center",
-            scrub: isMobile ? 0.5 : 1, // Faster scrub for mobile performance
+            scrub: 1,
             onUpdate: (self) => {
                 const { progress } = self;
                 const { interpolate } = gsap.utils;
@@ -82,12 +83,13 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
         <div
             ref={containerRef}
             style={{
-                height: isMobile ? '60vh' : '70vh',
+                height: isMobile ? 'auto' : '70vh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                position: 'sticky',
-                top: 0
+                position: isMobile ? 'relative' : 'sticky',
+                top: 0,
+                paddingBottom: isMobile ? '2rem' : 0
             }}
         >
             <div
@@ -95,32 +97,25 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                 style={{
                     position: 'relative',
                     width: isMobile ? '92%' : '70%',
-                    height: isMobile ? '380px' : '480px',
+                    height: isMobile ? 'auto' : '480px',
+                    minHeight: isMobile ? '320px' : 'none',
                     borderRadius: '24px',
                     isolation: 'isolate',
-                    top: `calc(-5vh + ${index * (isMobile ? 15 : 25)}px)`,
-                    transformOrigin: 'top'
+                    top: isMobile ? 0 : `calc(-5vh + ${index * 25}px)`,
+                    transformOrigin: 'top',
+                    margin: isMobile ? '0 auto' : undefined
                 }}
                 className="card-content"
             >
-                {/* Electric Border Effect - Simplified for mobile */}
+                {/* Simplified Border - No animation for performance */}
                 <div
                     style={{
                         position: 'absolute',
-                        inset: '-2px',
-                        borderRadius: '26px',
-                        padding: '2px',
-                        background: isMobile ? color : `conic-gradient(
-                            from 0deg,
-                            transparent 0deg,
-                            ${color} 60deg,
-                            ${color.replace('0.8', '0.6')} 120deg,
-                            transparent 180deg,
-                            ${color.replace('0.8', '0.4')} 240deg,
-                            transparent 360deg
-                        )`,
+                        inset: isMobile ? '-1px' : '-2px',
+                        borderRadius: '25px',
+                        background: color,
+                        opacity: isMobile ? 0.3 : 1,
                         zIndex: -1,
-                        opacity: isMobile ? 0.5 : 1
                     }}
                 />
 
@@ -133,12 +128,10 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     flexDirection: 'column',
                     justifyContent: 'center',
                     borderRadius: '24px',
-                    background: 'rgba(255, 254, 250, 0.12)', // Light cream glass
-                    backdropFilter: isMobile ? 'blur(20px)' : 'blur(35px) saturate(160%)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    boxShadow: isMobile
-                        ? `0 8px 32px rgba(0, 0, 0, 0.1)`
-                        : `0 12px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4)`,
+                    background: isMobile ? '#111' : 'rgba(255, 254, 250, 0.12)', // Solid dark on mobile for speed
+                    backdropFilter: isMobile ? 'none' : 'blur(35px) saturate(160%)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: isMobile ? '0 4px 20px rgba(0,0,0,0.4)' : '0 12px 48px rgba(0, 0, 0, 0.12)',
                     overflow: 'hidden',
                     padding: isMobile ? '1.5rem' : '3.5rem',
                 }}>
@@ -154,24 +147,23 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                     }} />
 
                     {/* Skill Content */}
-                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: isMobile ? '0.8rem' : '1.2rem' }}>
+                    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: isMobile ? '0.6rem' : '1.2rem' }}>
                         <div style={{
-                            width: isMobile ? '48px' : '64px',
-                            height: isMobile ? '48px' : '64px',
-                            borderRadius: '14px',
-                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                            width: isMobile ? '42px' : '64px',
+                            height: isMobile ? '42px' : '64px',
+                            borderRadius: '12px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backdropFilter: 'blur(10px)',
-                            border: '1px solid rgba(255, 255, 255, 0.3)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
                         }}>
-                            {Icon && <Icon className={isMobile ? "w-6 h-6" : "w-8 h-8"} style={{ color: '#1a1a1a' }} />}
+                            {Icon && <Icon className={isMobile ? "w-5 h-5" : "w-8 h-8"} style={{ color: '#fff' }} />}
                         </div>
                         <h3 style={{
-                            fontSize: isMobile ? '1.75rem' : 'clamp(2.2rem, 4vw, 3.2rem)',
+                            fontSize: isMobile ? '1.5rem' : 'clamp(2.2rem, 4vw, 3.2rem)',
                             fontWeight: 900,
-                            color: '#1a1a1a',
+                            color: '#fff',
                             lineHeight: 1.1,
                             letterSpacing: '-0.04em',
                             margin: 0
@@ -179,53 +171,46 @@ const Card: React.FC<CardProps> = ({ title, description, index, totalCards, colo
                             {title}
                         </h3>
                         <p style={{
-                            fontSize: isMobile ? '0.9rem' : 'clamp(0.95rem, 1.6vw, 1.15rem)',
-                            color: 'rgba(0, 0, 0, 0.8)',
+                            fontSize: isMobile ? '0.85rem' : 'clamp(0.95rem, 1.6vw, 1.15rem)',
+                            color: 'rgba(255, 255, 255, 0.7)',
                             lineHeight: 1.4,
                             maxWidth: '600px',
-                            fontWeight: 600,
+                            fontWeight: 500,
                             margin: 0,
-                            textShadow: '0 1px 2px rgba(255,255,255,0.2)'
                         }}>
                             {description}
                         </p>
 
-                        {/* Certificate Badge */}
+                        {/* Certificate Badge - NO HOVER as requested */}
                         {certificateUrl && (
                             <div
-                                className="group/cert"
                                 onClick={() => setIsModalOpen(true)}
                                 style={{
-                                    marginTop: '1.5rem',
+                                    marginTop: '1.2rem',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '1rem',
-                                    padding: '10px 16px',
-                                    background: 'rgba(255, 255, 255, 0.4)',
-                                    borderRadius: '16px',
+                                    gap: '0.8rem',
+                                    padding: '8px 12px',
+                                    background: 'rgba(255, 255, 255, 0.05)',
+                                    borderRadius: '12px',
                                     width: 'fit-content',
-                                    border: '1px solid rgba(255, 255, 255, 0.5)',
-                                    backdropFilter: 'blur(10px)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)',
                                     cursor: 'pointer',
-                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
                                     userSelect: 'none'
                                 }}
                             >
                                 <div style={{
-                                    width: '60px',
-                                    height: '40px',
-                                    borderRadius: '8px',
+                                    width: '45px',
+                                    height: '30px',
+                                    borderRadius: '4px',
                                     overflow: 'hidden',
-                                    border: '1px solid rgba(0,0,0,0.1)',
-                                    background: '#f0f0f0',
-                                    transition: 'transform 0.3s ease'
-                                }} className="group-hover/cert:scale-105">
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    background: '#111',
+                                }}>
                                     <img src={certificateUrl} alt="Certificate" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(0,0,0,0.4)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Verified Asset</span>
-                                    <span style={{ fontSize: '13px', fontWeight: 800, color: '#1a1a1a' }}>View Certificate</span>
+                                    <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff' }}>View Certificate</span>
                                 </div>
                             </div>
                         )}

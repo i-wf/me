@@ -202,8 +202,8 @@ export function CardStack<T extends CardStackItem>({
                   }}
                   transition={{
                     type: "spring",
-                    stiffness: isMobileLocal ? 350 : springStiffness, // Snappier on mobile
-                    damping: isMobileLocal ? 35 : springDamping,
+                    stiffness: isMobileLocal ? 450 : springStiffness, // Super snappy on mobile
+                    damping: isMobileLocal ? 40 : springDamping,
                   }}
                   onClick={() => setActive(i)}
                   {...dragProps}

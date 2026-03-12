@@ -57,9 +57,9 @@ const ProjectsSection = () => (
             items={projectItems}
             autoAdvance
             intervalMs={4000}
-            // Use responsive sizing
-            cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? Math.min(window.innerWidth - 40, 340) : 480}
-            cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 240 : 300}
+            // Use responsive sizing - optimized for phone
+            cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? 280 : 480}
+            cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 180 : 300}
           />
         </div>
       </motion.div>

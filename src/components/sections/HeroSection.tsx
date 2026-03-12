@@ -6,7 +6,7 @@ import ExpLevelCard from "@/components/ui/exp-level-card";
 import WarpShaderHero from "@/components/ui/wrap-shader";
 
 const HeroSection = () => (
-  <section id="hero" className="relative min-h-[110vh] flex flex-col items-center justify-center px-4 overflow-hidden">
+  <section id="hero" className="relative min-h-[100vh] flex flex-col items-center justify-center px-4 pt-20 md:pt-0 overflow-hidden">
     <WarpShaderHero />
 
     <div className="relative z-10 w-full max-w-6xl mx-auto">
@@ -90,8 +90,8 @@ const HeroSection = () => (
                 className="px-4 md:px-0"
               >
                 <ExpLevelCard
-                  initialLevel={15}
-                  initialExp={75}
+                  initialLevel={56}
+                  initialExp={85}
                   baseColorClass="from-purple-900 to-black"
                   highlightColorClass="border-purple-500/30"
                 />

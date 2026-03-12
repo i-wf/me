@@ -107,7 +107,8 @@ export default function MetallicBusinessCard({
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const width = isMobile ? Math.min(window.innerWidth - 60, 320) : initialWidth;
+    const width = isMobile ? 260 : initialWidth;
+    const height = Math.round(width / 1.586);
 
     const ids = useMemo(() => {
         const k = Math.random().toString(36).slice(2, 8);
@@ -201,7 +202,6 @@ export default function MetallicBusinessCard({
     };
 
     const wrapMode = mode === 'system' ? undefined : (mode as 'light' | 'dark');
-    const height = Math.round(width / 1.586);
     const alignCss = align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
     const textAlign = align === 'center' ? 'center' : align === 'right' ? 'right' : 'left';
     const titleId = useMemo(() => `card-title-${Math.random().toString(36).slice(2, 8)}`, []);

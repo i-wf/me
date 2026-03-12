@@ -4,31 +4,17 @@ import React, { useState } from 'react';
  * High-Quality, Remixable EXP Level Card Component.
  */
 export default function ExpLevelCard({
-    initialLevel = 1,
-    initialExp = 0,
+    initialLevel = 56, // Set to 56 as requested
+    initialExp = 85, // Static high progress
     expIncrement = 50,
     baseColorClass = 'from-purple-600 to-indigo-900',
     highlightColorClass = 'border-purple-500',
 }) {
-    const [level, setLevel] = useState(initialLevel);
-    const [exp, setExp] = useState(initialExp);
+    const [level] = useState(initialLevel);
+    const [exp] = useState(initialExp);
 
     // Compute EXP needed based on current level
-    const expToNextLevel = 100 + (level - 1) * expIncrement;
-
-    // Handle gaining random EXP on click
-    const handleGainExp = () => {
-        const gained = Math.floor(Math.random() * 50) + 10;
-        const totalExp = exp + gained;
-
-        if (totalExp >= expToNextLevel) {
-            const nextLevel = level + 1;
-            setLevel(nextLevel);
-            setExp(totalExp - expToNextLevel);
-        } else {
-            setExp(totalExp);
-        }
-    };
+    const expToNextLevel = 100; // Simplified static display
 
     // Progress bar width
     const progressWidth = `${(exp / expToNextLevel) * 100}%`;
@@ -44,21 +30,18 @@ export default function ExpLevelCard({
         bg-gradient-to-br ${baseColorClass} 
         border-2 ${highlightColorClass} 
         shadow-xl 
-        cursor-pointer 
         transition-all 
         duration-300
-        hover:scale-[1.02]
-        active:scale-95
         group
+        pointer-events-none // Disable all interactions as requested
       `}
-            onClick={handleGainExp}
         >
             {/* Glossy overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
 
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-0 md:gap-1">
                 <span className="text-[8px] md:text-[10px] font-bold text-white/70 tracking-[0.2em] uppercase">
-                    STATION LEVEL
+                    EXPERIENCE LEVEL
                 </span>
                 <div className="flex items-baseline gap-1 md:gap-2">
                     <span className="text-2xl md:text-3xl font-black text-white tracking-tighter">
@@ -80,9 +63,6 @@ export default function ExpLevelCard({
                     style={{ width: progressWidth }}
                 />
             </div>
-
-            {/* Pulse effect on hover */}
-            <div className="absolute top-2 right-2 w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white/50 animate-pulse" />
         </div>
     );
 }
