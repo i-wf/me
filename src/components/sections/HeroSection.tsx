@@ -4,6 +4,8 @@ import ProfileCard from "@/components/ui/profile-card";
 import { SocialIcons } from "@/components/ui/social-icons";
 import ExpLevelCard from "@/components/ui/exp-level-card";
 import WarpShaderHero from "@/components/ui/wrap-shader";
+import HolographicCard from "@/components/ui/holographic-card";
+import ShinyButton from "@/components/ui/shiny-button";
 
 const HeroSection = () => (
   <section id="hero" className="relative min-h-[100vh] flex flex-col items-center justify-center px-4 pt-20 md:pt-0 overflow-hidden">
@@ -52,15 +54,14 @@ const HeroSection = () => (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
               >
-                <a
-                  href="mailto:q@qn.ci"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-xl bg-foreground text-background font-medium hover:bg-foreground/90 transition-all hover:shadow-lg hover:shadow-primary/20 hover:scale-105 active:scale-95 text-sm md:text-base"
-                >
-                  <Mail className="w-4 h-4 group-hover:rotate-12 transition-transform" /> Contact Me
+                <a href="mailto:q@qn.ci">
+                  <ShinyButton className="rounded-xl h-auto py-3">
+                    <Mail className="w-4 h-4" /> Contact Me
+                  </ShinyButton>
                 </a>
                 <a
                   href="#projects"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-xl glass text-foreground font-medium hover:bg-secondary/50 transition-all hover:scale-105 active:scale-95 text-sm md:text-base"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-xl glass text-foreground font-medium hover:bg-secondary/50 transition-all hover:scale-105 active:scale-95 text-sm md:text-base h-[48px]"
                 >
                   View Work <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
                 </a>
@@ -74,14 +75,16 @@ const HeroSection = () => (
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ delay: 0.6, duration: 0.8, type: "spring" }}
               >
-                <ProfileCard
-                  name="Saif Medhat"
-                  role="Full Stack Creator"
-                  email="q@qn.ci"
-                  statusText="Available for work"
-                  glowText="Building the Future at 15"
-                  className="scale-90 md:scale-100 origin-center lg:origin-right"
-                />
+                <HolographicCard className="rounded-[28px]">
+                  <ProfileCard
+                    name="Saif Medhat"
+                    role="Full Stack Creator"
+                    email="q@qn.ci"
+                    statusText="Available for work"
+                    glowText="Building the Future at 15"
+                    className="scale-90 md:scale-100 origin-center lg:origin-right !shadow-none"
+                  />
+                </HolographicCard>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

@@ -9,15 +9,14 @@ import { AnimeNavBar } from "@/components/ui/anime-navbar";
 import { SplashScreen } from "@/components/ui/splash-screen";
 import { HeroDitheringCard } from "@/components/ui/hero-dithering-card";
 import HeroSection from "@/components/sections/HeroSection";
-import SkillsSection from "@/components/sections/SkillsSection";
-import ArsenalSection from "@/components/sections/ArsenalSection";
+import SkillsRedesign from "@/components/sections/SkillsRedesign";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import ContactSection from "@/components/sections/ContactSection";
 
 const navItems = [
   { name: "Home", url: "#hero", icon: Home },
-  { name: "Skills", url: "#skills", icon: Code },
+  { name: "Arsenal", url: "#skills-redesign", icon: Code },
   { name: "Projects", url: "#projects", icon: Briefcase },
   { name: "Contact", url: "#contact", icon: MessageSquare },
 ];
@@ -61,8 +60,7 @@ const Index = () => {
       <div className="relative z-10">
         <AnimeNavBar items={navItems} defaultActive="Home" />
         <HeroSection />
-        <SkillsSection />
-        <ArsenalSection />
+        <SkillsRedesign />
         <ProjectsSection />
         <TestimonialsSection />
         <ContactSection />

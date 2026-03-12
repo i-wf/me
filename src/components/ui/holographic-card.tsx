@@ -1,17 +1,25 @@
-import React, { useRef } from 'react';
+'use client';
+
+import React, { useRef, useState } from 'react';
+import { cn } from "@/lib/utils";
 
 interface HolographicCardProps {
   children?: React.ReactNode;
   className?: string;
+  glowColor?: string;
 }
 
-const HolographicCard = ({ children, className }: HolographicCardProps) => {
+export const HolographicCard = ({
+  children,
+  className,
+  glowColor = "rgba(255, 255, 255, 0.4)"
+}: HolographicCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [style, setStyle] = useState<React.CSSProperties>({});
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
-    const card = cardRef.current;
-    const rect = card.getBoundingClientRect();
+    const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
@@ -21,52 +29,67 @@ const HolographicCard = ({ children, className }: HolographicCardProps) => {
     const rotateX = (y - centerY) / 15;
     const rotateY = (centerX - x) / 15;
 
-    card.style.setProperty('--x', `${x}px`);
-    card.style.setProperty('--y', `${y}px`);
-    card.style.setProperty('--bg-x', `${(x / rect.width) * 100}%`);
-    card.style.setProperty('--bg-y', `${(y / rect.height) * 100}%`);
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    setStyle({
+      '--x': `${x}px`,
+      '--y': `${y}px`,
+      '--bg-x': `${(x / rect.width) * 100}%`,
+      '--bg-y': `${(y / rect.height) * 100}%`,
+      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+    } as React.CSSProperties);
   };
 
   const handleMouseLeave = () => {
-    if (!cardRef.current) return;
-    const card = cardRef.current;
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-    card.style.setProperty('--x', `50%`);
-    card.style.setProperty('--y', `50%`);
-    card.style.setProperty('--bg-x', '50%');
-    card.style.setProperty('--bg-y', '50%');
+    setStyle({
+      transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+      '--x': `50%`,
+      '--y': `50%`,
+      '--bg-x': '50%',
+      '--bg-y': '50%',
+    } as React.CSSProperties);
   };
 
   return (
     <div
+      className={cn(
+        "relative transition-all duration-200 ease-out preserve-3d group cursor-pointer",
+        className
+      )}
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative rounded-2xl glass overflow-hidden transition-transform duration-200 ease-out cursor-default ${className || ''}`}
-      style={{
-        '--x': '50%',
-        '--y': '50%',
-        '--bg-x': '50%',
-        '--bg-y': '50%',
-      } as React.CSSProperties}
+      style={style}
     >
-      <div className="relative z-10 p-8">
-        {children || (
-          <>
-            <h3 className="text-2xl font-bold text-foreground mb-2">Holographic Card</h3>
-            <p className="text-muted-foreground">Move your mouse over me!</p>
-          </>
-        )}
+      <div className="relative z-10 h-full w-full">
+        {children}
       </div>
 
-      {/* Holographic shine effect */}
+      {/* Holographic Glow Layer */}
       <div
-        className="absolute inset-0 opacity-0 hover:opacity-30 transition-opacity duration-300 pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[inherit]"
         style={{
-          background: `radial-gradient(circle at var(--bg-x) var(--bg-y), rgba(255,255,255,0.3), transparent 60%)`,
+          background: `radial-gradient(circle at var(--x, 50%) var(--y, 50%), ${glowColor} 0%, transparent 60%)`,
+          mixBlendMode: 'overlay',
+          zIndex: 5
         }}
       />
+
+      {/* Prism Effect */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-40 transition-opacity duration-500 rounded-[inherit]"
+        style={{
+          background: `linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 20%, transparent 40%, rgba(255,255,255,0.1) 60%, transparent 80%, rgba(255,255,255,0.1) 100%)`,
+          backgroundSize: '200% 200%',
+          backgroundPosition: 'var(--bg-x, 50%) var(--bg-y, 50%)',
+          mixBlendMode: 'color-dodge',
+          zIndex: 4
+        }}
+      />
+
+      <style>{`
+                .preserve-3d {
+                    transform-style: preserve-3d;
+                }
+            `}</style>
     </div>
   );
 };
